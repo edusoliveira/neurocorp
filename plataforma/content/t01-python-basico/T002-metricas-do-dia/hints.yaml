@@ -1,0 +1,31 @@
+# Para cada teste: título curto + dicas progressivas (da mais leve para a mais direta).
+# alvo (opcional): {arquivo, funcao} — onde o comentário aparece no código
+# quando o erro não aponta uma linha do seu arquivo.
+test_calcular_pendentes:
+  titulo: "`calcular_pendentes` não devolveu o número de pendentes"
+  dicas:
+    - "A função precisa DEVOLVER o valor com `return`. Um `print` só mostra na tela, não devolve nada."
+    - "Pendentes são os que chegaram menos os que já foram resolvidos."
+    - "Escreva: `return recebidos - resolvidos`"
+  alvo: {arquivo: suporte/metricas.py, funcao: calcular_pendentes}
+test_taxa_resolucao_basica:
+  titulo: A taxa de resolução está com o valor errado
+  dicas:
+    - "Porcentagem = parte dividida pelo todo, vezes 100. Aqui a parte são os resolvidos."
+    - "Confira a ordem: é `resolvidos / recebidos`, e não o contrário."
+    - "Escreva: `return round(resolvidos / recebidos * 100, 1)`"
+  alvo: {arquivo: suporte/metricas.py, funcao: calcular_taxa_resolucao}
+test_taxa_resolucao_arredonda:
+  titulo: A taxa precisa ter só 1 casa decimal
+  dicas:
+    - "1 dividido por 3 dá 0.3333... — o ticket pede só uma casa depois do ponto."
+    - "A função `round(numero, casas)` arredonda: `round(33.333, 1)` dá `33.3`."
+    - "Arredonde depois de multiplicar por 100: `round(resolvidos / recebidos * 100, 1)`."
+  alvo: {arquivo: suporte/metricas.py, funcao: calcular_taxa_resolucao}
+test_taxa_resolucao_sem_tickets:
+  titulo: Com 0 tickets recebidos a função quebra ou devolve o valor errado
+  dicas:
+    - "Dividir por zero gera `ZeroDivisionError`. Você precisa tratar esse caso antes de dividir."
+    - "Use um `if` no começo da função para checar se `recebidos == 0`."
+    - "Escreva no começo da função: `if recebidos == 0:` e, dentro dele, `return 0.0`."
+  alvo: {arquivo: suporte/metricas.py, funcao: calcular_taxa_resolucao}

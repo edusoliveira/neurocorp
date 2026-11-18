@@ -1,0 +1,39 @@
+id: T010
+titulo: Relatório diário em JSON
+tipo: feature        # feature | bug | melhoria | desafio
+prioridade: alta     # baixa | media | alta | urgente
+solicitante: rafael  # id em content/personas.yaml
+xp: 150
+estimativa: 1 h
+conceitos: [módulos, import entre arquivos, dicionários aninhados, JSON, escrita de arquivos]
+arquivos:            # arquivos que você edita, relativos à pasta suporte-inteligente/
+  - suporte/relatorio.py
+criterios:
+  - texto: "O relatório tem `total` e `abertos` corretos"
+    testes: [test_relatorio_totais]
+  - texto: "O relatório tem as contagens `por_categoria` e `por_prioridade`"
+    testes: [test_relatorio_contagens]
+  - texto: "O relatório tem a `taxa_resolucao` e funciona com lista vazia"
+    testes: [test_relatorio_taxa_e_lista_vazia]
+  - texto: "`salvar_relatorio` grava um arquivo JSON válido com o relatório"
+    testes: [test_salvar_relatorio_json]
+  - texto: "O JSON é gravado em UTF-8, com acentos legíveis e indentação de 2 espaços"
+    testes: [test_salvar_relatorio_formato]
+checagens:
+  - tipo: exigir_import
+    modulo: json
+    arquivo: suporte/relatorio.py
+    mensagem: "Use o módulo json da biblioteca padrão para gravar o arquivo."
+  - tipo: exigir_chamada
+    nome: contar_por_categoria
+    arquivo: suporte/relatorio.py
+    mensagem: "Você já escreveu contar_por_categoria no T006 — importe e reaproveite em vez de reescrever."
+  - tipo: exigir_chamada
+    nome: calcular_taxa_resolucao
+    arquivo: suporte/relatorio.py
+    mensagem: "Reaproveite calcular_taxa_resolucao do T002 (from suporte.metricas import ...)."
+  - tipo: proibir_import
+    modulo: pandas
+    mensagem: "Nada de pandas por enquanto! Use as funções que você já escreveu."
+mensagemAbertura: "Rafael aqui! A diretoria quer um relatório diário que o painel web consiga ler. O formato combinado é JSON. A melhor parte: você já tem quase todas as peças prontas!"
+mensagemConclusao: "Que orgulho! Você juntou o trabalho de vários tickets num relatório de verdade. O painel já está consumindo o JSON 📊"

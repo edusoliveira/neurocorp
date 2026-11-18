@@ -1,0 +1,30 @@
+# Para cada teste: título curto + dicas progressivas (da mais leve para a mais direta).
+# alvo (opcional): {arquivo, funcao} — onde o comentário aparece no código
+# quando o erro não aponta uma linha do seu arquivo.
+test_carregar_todas_as_linhas:
+  titulo: A função não devolveu todos os tickets do CSV
+  dicas:
+    - "Abra o arquivo com `with open(caminho, encoding=\"utf-8\", newline=\"\") as arquivo:` — o arquivo fecha sozinho no fim do bloco."
+    - "`leitor = csv.DictReader(arquivo)` e depois `for linha in leitor:` — cada `linha` já é um dicionário."
+    - "Crie `tickets = []` antes, faça `tickets.append(linha)` dentro do laço e `return tickets` no fim."
+  alvo: {arquivo: suporte/leitura.py, funcao: carregar_tickets}
+test_carregar_id_inteiro:
+  titulo: "O `id` precisa ser um número inteiro"
+  dicas:
+    - "Tudo que vem do CSV é texto: `\"1\"` em vez de `1`."
+    - "`int(\"1\")` converte o texto para o número 1."
+    - "Dentro do laço, antes do append: `linha[\"id\"] = int(linha[\"id\"])`."
+  alvo: {arquivo: suporte/leitura.py, funcao: carregar_tickets}
+test_carregar_acentos_utf8:
+  titulo: Os acentos vieram estragados
+  dicas:
+    - "Se `Pão` virou `PÃ£o`, o arquivo foi lido com a codificação errada."
+    - "No Windows o padrão do `open` não é UTF-8. Você precisa dizer isso explicitamente."
+    - "Use: `open(caminho, encoding=\"utf-8\", newline=\"\")`."
+  alvo: {arquivo: suporte/leitura.py, funcao: carregar_tickets}
+test_carregar_so_cabecalho:
+  titulo: Um CSV sem tickets deveria virar lista vazia
+  dicas:
+    - "Se o arquivo só tem o cabeçalho, o `for` não roda nenhuma vez."
+    - "Confira se o `return tickets` está fora do `with` e do `for`, e se `tickets = []` foi criado antes do laço."
+  alvo: {arquivo: suporte/leitura.py, funcao: carregar_tickets}

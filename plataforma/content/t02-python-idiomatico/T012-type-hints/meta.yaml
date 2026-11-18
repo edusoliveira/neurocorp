@@ -1,0 +1,33 @@
+id: T012
+titulo: Type hints nas métricas, filtros e contagens
+tipo: melhoria       # feature | bug | melhoria | desafio
+prioridade: media    # baixa | media | alta | urgente
+solicitante: marina  # id em content/personas.yaml
+xp: 120
+estimativa: 45 min
+conceitos: [type hints, anotações de tipo, list e dict genéricos, "X | None", typing.Any, get_type_hints]
+arquivos:            # arquivos que você edita, relativos à pasta suporte-inteligente/
+  - suporte/metricas.py
+  - suporte/filtros.py
+  - suporte/contagens.py
+criterios:
+  - texto: "`metricas.py`: parâmetros `int`; `calcular_pendentes` devolve `int` e `calcular_taxa_resolucao` devolve `float` (comportamento igual ao de antes)"
+    testes: [test_tipos_metricas]
+  - texto: "`filtros.py`: `tickets` é `list[dict[str, Any]]`, `prioridade` é `str`; retornos `int` e `list[dict[str, Any]]`"
+    testes: [test_tipos_filtros]
+  - texto: "`contar_por_categoria` recebe `list[dict[str, Any]]` e devolve `dict[str, int]`"
+    testes: [test_tipos_contar_por_categoria]
+  - texto: "`categoria_mais_frequente` devolve `str | None` (e continua devolvendo None para lista vazia)"
+    testes: [test_tipo_opcional_categoria_mais_frequente]
+checagens:
+  - tipo: exigir_anotacoes
+    arquivo: suporte/metricas.py
+    mensagem: "Toda função de metricas.py precisa de tipo em cada parâmetro e no retorno (-> ...)."
+  - tipo: exigir_anotacoes
+    arquivo: suporte/filtros.py
+    mensagem: "Toda função de filtros.py precisa de tipo em cada parâmetro e no retorno (-> ...)."
+  - tipo: exigir_anotacoes
+    arquivo: suporte/contagens.py
+    mensagem: "Toda função de contagens.py precisa de tipo em cada parâmetro e no retorno (-> ...)."
+mensagemAbertura: "Oi! Marina aqui. Parabéns pela promoção 🎉 Agora que você é Júnior, o código precisa ficar com cara de produção. Primeiro passo: dizer ao Python (e a quem lê) que tipo cada função recebe e devolve."
+mensagemConclusao: "Ficou ótimo! Repara como agora o VS Code completa e avisa erros sozinho. E deu pra sentir o incômodo do `dict[str, Any]`, né? No próximo ticket a gente resolve isso."

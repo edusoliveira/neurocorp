@@ -1,0 +1,23 @@
+[project]
+name = "suporte-inteligente"
+version = "0.1.0"
+description = "Ferramentas do Suporte Inteligente da NeuroCorp"
+requires-python = ">=3.12"
+dependencies = [
+    "pydantic>=2.7",
+]
+
+[project.scripts]
+suporte = "suporte.__main__:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.6",
+]
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "W", "N", "B"]

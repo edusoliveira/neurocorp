@@ -1,0 +1,31 @@
+id: T009
+titulo: "Bug: o relatório quebra com o arquivo de dados sujos"
+tipo: bug            # feature | bug | melhoria | desafio
+prioridade: alta     # baixa | media | alta | urgente
+solicitante: julia   # id em content/personas.yaml
+xp: 130
+estimativa: 1 h
+conceitos: [try/except, ValueError, validação de dados, tuplas, reaproveitar funções]
+arquivos:            # arquivos que você edita, relativos à pasta suporte-inteligente/
+  - suporte/limpeza.py
+criterios:
+  - texto: "Devolve uma tupla (validos, quantidade_descartada); linhas boas mantêm os dados e o `id` vira int"
+    testes: [test_limpos_linhas_validas]
+  - texto: "Categoria e prioridade ficam sem espaços e minúsculas; o assunto é normalizado"
+    testes: [test_limpos_normaliza_campos]
+  - texto: "Linhas com `id` que não é número inteiro são descartadas (sem quebrar o programa)"
+    testes: [test_limpos_descarta_id_invalido]
+  - texto: "Linhas com categoria vazia ou prioridade desconhecida são descartadas"
+    testes: [test_limpos_descarta_categoria_e_prioridade]
+  - texto: "Funciona com um arquivo com todos os problemas misturados"
+    testes: [test_limpos_arquivo_misturado]
+checagens:
+  - tipo: exigir_import
+    modulo: csv
+    arquivo: suporte/limpeza.py
+    mensagem: "Leia o arquivo com o módulo csv (import csv), como no ticket de leitura."
+  - tipo: proibir_import
+    modulo: pandas
+    mensagem: "Nada de pandas por enquanto! Resolva com csv e Python puro."
+mensagemAbertura: "Socorro! 😱 Exportaram um arquivo novo (data/tickets_sujos.csv) e o carregar_tickets explodiu com ValueError. Tem id 'abc', prioridade 'altíssima', espaço sobrando... Preciso disso funcionando hoje!"
+mensagemConclusao: "Ufa, salvou o dia! Agora os dados ruins são descartados e a gente ainda sabe quantos foram. Vou mandar o número pro time que exporta o arquivo 😅"

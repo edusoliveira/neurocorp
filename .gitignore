@@ -1,0 +1,13 @@
+# Ambiente Python (recriado com `npm run setup`)
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# Seu repositório de trabalho tem o próprio Git (repo suporte-inteligente)
+suporte-inteligente/
+
+# Configuração local do Claude
+.claude/
+plataforma/.claude/

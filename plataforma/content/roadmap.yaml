@@ -1,0 +1,109 @@
+# Trilhas futuras (ainda sem tickets), seguindo o plano de estudos para Engenheiro(a)/Arquiteto(a) de IA.
+# Quando uma trilha ganhar uma pasta em content/ (com trilha.yaml), remova-a daqui.
+# Campos: ordem, titulo, fase, periodo, descricao, topicos, projeto (opcional), marco (opcional), cargoAoConcluir.
+
+- ordem: 3
+  titulo: Dados, API e Docker
+  fase: Fase 0 · Base de engenharia Python
+  periodo: dez/2026
+  descricao: SQL de verdade, pandas, uma API FastAPI e o primeiro container.
+  topicos: [SQL intermediário (CTEs, window functions), pandas, FastAPI básico, Git, Docker básico]
+  projeto: "Projeto 0 — API FastAPI que gera o relatório de tickets a partir de SQL, com testes e Dockerfile"
+  cargoAoConcluir: Engenheiro(a) de IA Júnior
+
+- ordem: 4
+  titulo: LLMs por Dentro
+  fase: Fase 1 · LLMs por dentro (versão enxuta)
+  periodo: dez/2026 (~3 semanas)
+  descricao: Como um LLM funciona, quanto custa e quando usar cada abordagem.
+  topicos:
+    - token, embedding e atenção (conceito)
+    - janela de contexto, temperatura, cut-off e alucinação
+    - modelos fechados x abertos, Hugging Face e Ollama
+    - prompt x RAG x fine-tuning
+  projeto: "Entrega — notebook comparando 3 modelos (um local) em qualidade, latência e custo, com resumo escrito"
+  cargoAoConcluir: Engenheiro(a) de IA Júnior II
+
+- ordem: 5
+  titulo: APIs, Prompts e Contexto
+  fase: Fase 2 · APIs, prompts e contexto confiáveis
+  periodo: jan – fev/2027
+  descricao: Chamar modelos de forma confiável, com saída estruturada, ferramentas e evals desde o começo.
+  topicos:
+    - SDKs OpenAI e Anthropic, Azure OpenAI e Bedrock via LiteLLM
+    - structured outputs com Pydantic e tool calling
+    - ReAct, few-shot e CoT
+    - context engineering e prompt caching
+    - streaming, retries, timeouts e rate limit
+    - golden set no pytest e tracing no Langfuse
+  projeto: "Projeto 1 — extrator de contratos como serviço FastAPI, com acerto por campo em 30 contratos e custo por documento"
+  cargoAoConcluir: Engenheiro(a) de IA Pleno I
+
+- ordem: 6
+  titulo: RAG de Produção
+  fase: Fase 3 · RAG de produção
+  periodo: mar – abr/2027
+  descricao: Buscar o trecho certo, citar a fonte e respeitar quem pode ver o quê.
+  topicos:
+    - parsing de PDF e tabelas, chunking e metadados
+    - embeddings por API e sentence-transformers, pgvector
+    - busca híbrida (BM25 + vetor), reranking, ACL e citação
+    - cache semântico com Redis, Agentic RAG e GraphRAG (noção)
+    - RAGAS (faithfulness, context precision e recall)
+  projeto: "Projeto 2 — assistente de documentos com citação exata, controle de acesso por usuário e RAGAS no CI"
+  cargoAoConcluir: Engenheiro(a) de IA Pleno II
+
+- ordem: 7
+  titulo: Agentes e MCP
+  fase: Fase 4 · Agentes e MCP
+  periodo: mai/2027
+  descricao: Agentes que usam ferramentas com segurança, e quando não usar agente.
+  topicos:
+    - loop agêntico e design de tools
+    - LangGraph (estado, threads, checkpoints, human-in-the-loop)
+    - memória curta e longa
+    - MCP (consumir e construir um server), Agent Skills e multiagente
+    - A2A e Semantic Kernel (leitura)
+  cargoAoConcluir: Engenheiro(a) de IA Pleno III
+
+- ordem: 8
+  titulo: Segurança, Avaliação e Observabilidade
+  fase: Fase 5 · Segurança, avaliação e observabilidade
+  periodo: jun/2027
+  descricao: O que separa um protótipo de um sistema em que um banco confiaria.
+  topicos:
+    - OWASP Top 10 para LLM e prompt injection direta e indireta
+    - vazamento de PII, toxicidade e red team
+    - guardrails (Guardrails AI ou Llama Guard)
+    - DeepEval, LLM-as-judge calibrado e análise de erros
+    - regressão no CI e teste A/B
+    - OpenTelemetry, métricas de latência, custo e qualidade, alertas
+  projeto: "Projeto 3 — agente de atendimento estilo bancário com MCP, aprovação humana, guardrails, evals no CI e dashboard de observabilidade"
+  marco: "Começar a se candidatar (fim de jun/2027)"
+  cargoAoConcluir: Engenheiro(a) de IA Sênior I
+
+- ordem: 9
+  titulo: Produção e Plataforma
+  fase: Fase 6 · Produção e plataforma
+  periodo: jul – ago/2027 (em paralelo às candidaturas)
+  descricao: Levar o agente para a nuvem com CI/CD, observabilidade e controle de custo.
+  topicos:
+    - FastAPI async a fundo, Postgres, Redis e filas
+    - eventos (Kafka/SQS), NoSQL e microsserviços (noção)
+    - Docker, Kubernetes básico, GitHub Actions e GitOps (noção)
+    - AWS (Bedrock, ECS ou Lambda), autenticação, rate limiting e custo
+  projeto: "Projeto final — o Projeto 3 na AWS com URL pública, CI/CD e OpenTelemetry, mais um template/SDK reutilizável documentado"
+  cargoAoConcluir: Engenheiro(a) de IA Sênior II
+
+- ordem: 10
+  titulo: Aprofundamento
+  fase: Fase 7 · Aprofundamento
+  periodo: set/2027 em diante
+  descricao: Multimodal, fine-tuning, serving e as certificações.
+  topicos:
+    - multimodal (Whisper, visão)
+    - fine-tuning com LoRA e serving com vLLM
+    - knowledge graphs
+    - Go
+    - AWS AI Practitioner e ML Engineer Associate
+  cargoAoConcluir: Arquiteto(a) de IA

@@ -1,0 +1,26 @@
+id: T006
+titulo: Contagem de tickets por categoria
+tipo: feature        # feature | bug | melhoria | desafio
+prioridade: media    # baixa | media | alta | urgente
+solicitante: rafael  # id em content/personas.yaml
+xp: 100
+estimativa: 40 min
+conceitos: [dicionários, chaves e valores, get, items, laços com dicionários]
+arquivos:            # arquivos que você edita, relativos à pasta suporte-inteligente/
+  - suporte/contagens.py
+criterios:
+  - texto: "`contar_por_categoria` devolve um dicionário {categoria: quantidade}"
+    testes: [test_contar_por_categoria]
+  - texto: "`contar_por_categoria` devolve {} para uma lista vazia"
+    testes: [test_contar_por_categoria_vazia]
+  - texto: "`categoria_mais_frequente` devolve a categoria com mais tickets"
+    testes: [test_categoria_mais_frequente]
+  - texto: "Em caso de empate vence a primeira em ordem alfabética; lista vazia devolve None"
+    testes: [test_categoria_mais_frequente_empate_e_vazia]
+checagens:
+  - tipo: proibir_import
+    modulo: collections
+    arquivo: suporte/contagens.py
+    mensagem: "O Counter resolve isso numa linha, mas aqui a ideia é praticar dicionários na mão. Sem importar collections, combinado?"
+mensagemAbertura: "Rafael de novo! Preciso saber de onde vêm os problemas: cobrança? técnico? entrega? Me ajuda a contar os tickets por categoria?"
+mensagemConclusao: "Agora sim tenho dados pra levar pra diretoria. Dicionários são mágicos, né? 😉"

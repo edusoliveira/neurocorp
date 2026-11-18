@@ -1,0 +1,43 @@
+id: T013
+titulo: Um modelo Ticket de verdade com dataclass
+tipo: feature        # feature | bug | melhoria | desafio
+prioridade: alta     # baixa | media | alta | urgente
+solicitante: marina  # id em content/personas.yaml
+xp: 130
+estimativa: 1 h
+conceitos: [dataclass, frozen, imutabilidade, "@property", métodos, "@classmethod", construtor alternativo, datetime]
+arquivos:            # arquivos que você edita, relativos à pasta suporte-inteligente/
+  - suporte/modelos.py
+criterios:
+  - texto: "`Ticket` é uma dataclass com os 9 campos do CSV, na ordem, com os tipos pedidos"
+    testes: [test_ticket_e_dataclass_com_campos]
+  - texto: "`Ticket` é imutável (`frozen=True`): alterar um campo gera `FrozenInstanceError`"
+    testes: [test_ticket_imutavel]
+  - texto: "`Ticket.de_linha` converte uma linha do CSV: `id` vira int e as datas viram `datetime`"
+    testes: [test_de_linha_converte_tipos]
+  - texto: "`fechado_em` vazio no CSV vira `None`"
+    testes: [test_de_linha_fechado_em_vazio_vira_none]
+  - texto: "`esta_aberto` é uma `@property` que diz se o status é diferente de \"fechado\""
+    testes: [test_esta_aberto_e_property]
+  - texto: "`horas_aberto(agora)` devolve as horas em aberto (até `fechado_em` ou até `agora`)"
+    testes: [test_horas_aberto]
+  - texto: "Todas as linhas de `data/tickets.csv` viram `Ticket` sem erro"
+    testes: [test_de_linha_com_csv_real]
+checagens:
+  - tipo: exigir_decorador
+    nome: dataclass
+    arquivo: suporte/modelos.py
+    mensagem: "O ticket pede que Ticket seja criado com @dataclass."
+  - tipo: exigir_decorador
+    nome: classmethod
+    arquivo: suporte/modelos.py
+    mensagem: "de_linha deve ser um @classmethod (um construtor alternativo da classe)."
+  - tipo: exigir_decorador
+    nome: property
+    arquivo: suporte/modelos.py
+    mensagem: "esta_aberto deve ser uma @property (acessada sem parênteses)."
+  - tipo: exigir_anotacoes
+    arquivo: suporte/modelos.py
+    mensagem: "Toda função/método de modelos.py precisa de tipo em cada parâmetro e no retorno."
+mensagemAbertura: "Lembra do incômodo do `dict[str, Any]`? Hoje a gente acaba com ele: o ticket vira uma classe de verdade, com cada campo no tipo certo."
+mensagemConclusao: "Agora `ticket.aberto_em` é um datetime de verdade e o editor sabe disso. Esse Ticket vai ser a base de tudo que vem pela frente na trilha."

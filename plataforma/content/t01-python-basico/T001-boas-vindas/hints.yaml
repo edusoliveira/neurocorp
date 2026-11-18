@@ -1,0 +1,25 @@
+# Para cada teste: título curto + dicas progressivas (da mais leve para a mais direta).
+# alvo (opcional): {arquivo, funcao} — onde o comentário aparece no código
+# quando o erro não aponta uma linha do seu arquivo.
+test_variavel_empresa:
+  titulo: A variável `empresa` está faltando ou com valor errado
+  dicas:
+    - "Uma variável é criada com `nome = valor`. Textos ficam entre aspas."
+    - "Confira maiúsculas e minúsculas: o valor precisa ser exatamente `NeuroCorp`."
+    - "Escreva: `empresa = \"NeuroCorp\"`"
+test_variavel_tickets_ontem:
+  titulo: "`tickets_ontem` precisa ser o número inteiro 42"
+  dicas:
+    - "Números inteiros são escritos sem aspas. `\"42\"` é texto, `42` é número."
+    - "Escreva: `tickets_ontem = 42`"
+test_variavel_equipe:
+  titulo: "`equipe` deve ser uma lista com 3 nomes"
+  dicas:
+    - "Listas usam colchetes e separam os itens com vírgula."
+    - "Exemplo: `equipe = [\"Ana\", \"Bruno\", \"Carla\"]`"
+test_mensagem_impressa:
+  titulo: A mensagem impressa não está igual à pedida
+  dicas:
+    - "Compare letra por letra com o texto do ticket — pontuação e espaços contam."
+    - "Use uma f-string para colocar variáveis dentro do texto: `f\"Ontem recebemos {tickets_ontem} tickets.\"`"
+    - "O número de pessoas vem de `len(equipe)`. Dá pra colocar direto dentro das chaves: `{len(equipe)}`."

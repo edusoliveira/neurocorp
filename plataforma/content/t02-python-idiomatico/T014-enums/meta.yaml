@@ -1,0 +1,37 @@
+id: T014
+titulo: Prioridade e status como Enum
+tipo: melhoria       # feature | bug | melhoria | desafio
+prioridade: media    # baixa | media | alta | urgente
+solicitante: julia   # id em content/personas.yaml
+xp: 140
+estimativa: 1 h
+conceitos: [Enum, StrEnum, "@property em enum", ordenação com key, sorted, ValueError]
+arquivos:            # arquivos que você edita, relativos à pasta suporte-inteligente/
+  - suporte/modelos.py
+criterios:
+  - texto: "`Prioridade(StrEnum)` com BAIXA, MEDIA, ALTA e URGENTE, valendo os textos do CSV"
+    testes: [test_prioridade_enum]
+  - texto: "`Status(StrEnum)` com ABERTO, EM_ANDAMENTO e FECHADO, valendo os textos do CSV"
+    testes: [test_status_enum]
+  - texto: "`Prioridade.peso` (property): baixa=1, media=2, alta=3, urgente=4"
+    testes: [test_peso_da_prioridade]
+  - texto: "`Ticket.de_linha` devolve `prioridade` e `status` como membros dos enums (e o resto continua funcionando)"
+    testes: [test_de_linha_usa_enums]
+  - texto: "`Ticket.de_linha` gera `ValueError` para prioridade ou status desconhecidos"
+    testes: [test_de_linha_rejeita_valor_desconhecido]
+  - texto: "`ordenar_por_urgencia` ordena do mais urgente para o menos urgente; empate pelo mais antigo"
+    testes: [test_ordenar_por_urgencia]
+checagens:
+  - tipo: exigir_heranca
+    nome: StrEnum
+    arquivo: suporte/modelos.py
+    mensagem: "Prioridade e Status devem herdar de StrEnum (from enum import StrEnum)."
+  - tipo: exigir_decorador
+    nome: dataclass
+    arquivo: suporte/modelos.py
+    mensagem: "Ticket continua sendo uma @dataclass."
+  - tipo: exigir_anotacoes
+    arquivo: suporte/modelos.py
+    mensagem: "Toda função/método de modelos.py precisa de tipo em cada parâmetro e no retorno."
+mensagemAbertura: "Oi, Júlia aqui! Achei um ticket com prioridade \"Alta \" e outro com status \"fehcado\" no sistema 🙃 Quero que o código só aceite os valores que existem de verdade."
+mensagemConclusao: "Perfeito! Agora um valor inventado quebra na hora, com mensagem clara, em vez de virar um bug silencioso no relatório."

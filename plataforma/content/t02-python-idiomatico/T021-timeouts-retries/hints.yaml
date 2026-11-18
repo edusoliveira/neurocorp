@@ -1,0 +1,43 @@
+# Para cada teste: título curto + dicas progressivas (da mais leve para a mais direta).
+# alvo (opcional): {arquivo, funcao} — onde o comentário aparece no código
+# quando o erro não aponta uma linha do seu arquivo.
+test_retry_sucesso_de_primeira:
+  titulo: "`com_retry` não devolveu o resultado da função"
+  dicas:
+    - "`funcao` não tem argumentos e devolve uma corrotina: o resultado vem de `await funcao()`."
+    - "Envolva com o timeout e devolva: `return await asyncio.wait_for(funcao(), timeout)`."
+  alvo: {arquivo: suporte/resiliencia.py, funcao: com_retry}
+test_retry_falha_e_depois_funciona:
+  titulo: Uma falha temporária não foi repetida
+  dicas:
+    - "Coloque a tentativa dentro de um `for numero in range(tentativas):` com `try`/`except`."
+    - "Capture só os erros temporários: `except (TimeoutError, ConnectionError, ErroTemporario):`."
+    - "Chame `funcao()` de novo DENTRO do laço — uma corrotina já aguardada não pode ser aguardada outra vez."
+  alvo: {arquivo: suporte/resiliencia.py, funcao: com_retry}
+test_retry_esgota_tentativas:
+  titulo: Depois da última tentativa, o erro deveria subir
+  dicas:
+    - "No `except`, confira se esta era a última tentativa: `if numero == tentativas - 1:`."
+    - "Um `raise` sozinho, dentro do `except`, levanta de novo a exceção que está sendo tratada — exatamente a da última tentativa."
+    - "E não esqueça: `if tentativas < 1: raise ValueError(...)` logo no começo."
+  alvo: {arquivo: suporte/resiliencia.py, funcao: com_retry}
+test_retry_timeout:
+  titulo: A tentativa travada não virou TimeoutError
+  dicas:
+    - "Sem timeout, `await funcao()` espera para sempre."
+    - "`asyncio.wait_for(funcao(), timeout)` cancela a espera depois de `timeout` segundos e levanta `TimeoutError`."
+    - "Inclua `TimeoutError` na lista de erros temporários para que ele também seja repetido."
+  alvo: {arquivo: suporte/resiliencia.py, funcao: com_retry}
+test_retry_nao_repete_outros_erros:
+  titulo: Um erro não temporário foi repetido (ou engolido)
+  dicas:
+    - "Não use `except Exception:` — isso captura tudo, inclusive erros que não vale a pena repetir."
+    - "Capture só a tupla `(TimeoutError, ConnectionError, ErroTemporario)`; o resto sobe sozinho."
+  alvo: {arquivo: suporte/resiliencia.py, funcao: com_retry}
+test_retry_backoff_exponencial:
+  titulo: As esperas entre as tentativas não seguem o backoff exponencial
+  dicas:
+    - "A espera depois da falha número `n` (começando em 0) é `espera_base * 2**n`: 0,1 s, 0,2 s, 0,4 s..."
+    - "Use `await asyncio.sleep(...)` — o `time.sleep` travaria o programa inteiro."
+    - "No `except`, depois de conferir que não é a última tentativa: `await asyncio.sleep(espera_base * 2**numero)`."
+  alvo: {arquivo: suporte/resiliencia.py, funcao: com_retry}

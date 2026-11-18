@@ -1,0 +1,31 @@
+# Para cada teste: título curto + dicas progressivas (da mais leve para a mais direta).
+# alvo (opcional): {arquivo, funcao} — onde o comentário aparece no código
+# quando o erro não aponta uma linha do seu arquivo.
+test_prioridade_baixa:
+  titulo: Tickets recentes deveriam ser "baixa"
+  dicas:
+    - "A função precisa devolver um texto com `return`, e não usar `print`."
+    - "O `else` no final cobre \"qualquer outro caso\" — é ali que entra o `\"baixa\"`."
+    - "Termine a função com: `else:` e, dentro dele, `return \"baixa\"`."
+  alvo: {arquivo: suporte/prioridade.py, funcao: classificar_prioridade}
+test_prioridade_media_e_alta:
+  titulo: '"media" e "alta" estão trocadas ou faltando'
+  dicas:
+    - "O Python para na PRIMEIRA condição verdadeira. 30 horas também é mais de 8 horas!"
+    - "Teste o `horas_aberto > 24` ANTES do `horas_aberto > 8`."
+    - "Use: `elif horas_aberto > 24: return \"alta\"` e depois `elif horas_aberto > 8: return \"media\"`."
+  alvo: {arquivo: suporte/prioridade.py, funcao: classificar_prioridade}
+test_prioridade_vip_urgente:
+  titulo: Cliente VIP com mais de 2 horas deveria ser "urgente"
+  dicas:
+    - "A regra do VIP é a primeira da lista — ela precisa ser o primeiro `if`."
+    - "As duas coisas precisam ser verdade ao mesmo tempo: use `and`."
+    - "Escreva: `if cliente_vip and horas_aberto > 2: return \"urgente\"`."
+  alvo: {arquivo: suporte/prioridade.py, funcao: classificar_prioridade}
+test_prioridade_limites_exatos:
+  titulo: Os limites exatos (2h, 8h, 24h) estão com o resultado errado
+  dicas:
+    - "O ticket diz \"mais de\". Exatamente 8 horas NÃO é mais de 8 horas."
+    - "`>` é \"maior que\"; `>=` é \"maior ou igual\". Qual dos dois a regra pede?"
+    - "Troque todos os `>=` por `>` nas suas condições."
+  alvo: {arquivo: suporte/prioridade.py, funcao: classificar_prioridade}

@@ -1,0 +1,25 @@
+id: T001
+titulo: Script de boas-vindas da equipe de suporte
+tipo: feature        # feature | bug | melhoria | desafio
+prioridade: media    # baixa | media | alta | urgente
+solicitante: marina  # id em content/personas.yaml
+xp: 50
+estimativa: 20 min
+conceitos: [variáveis, tipos, print, f-strings]
+arquivos:            # arquivos que você edita, relativos à pasta suporte-inteligente/
+  - suporte/boas_vindas.py
+criterios:
+  - texto: "Variável `empresa` com o texto \"NeuroCorp\""
+    testes: [test_variavel_empresa]
+  - texto: "Variável `tickets_ontem` com o número inteiro 42"
+    testes: [test_variavel_tickets_ontem]
+  - texto: "Variável `equipe` com uma lista de 3 nomes (textos)"
+    testes: [test_variavel_equipe]
+  - texto: "Imprime exatamente a mensagem de boas-vindas pedida"
+    testes: [test_mensagem_impressa]
+checagens:
+  - tipo: exigir_chamada
+    nome: print
+    mensagem: "O ticket pede que a mensagem seja mostrada na tela com print()."
+mensagemAbertura: "Oi! Bem-vindo(a) à NeuroCorp 🎉 Sua primeira tarefa é simples: um script de boas-vindas. Qualquer dúvida, me chama!"
+mensagemConclusao: "Mandou bem no primeiro ticket! Já já te passo algo com números de verdade."

@@ -1,0 +1,40 @@
+id: T015
+titulo: "Bug: a validação dos dados sujos está espalhada e sem mensagem de erro"
+tipo: bug            # feature | bug | melhoria | desafio
+prioridade: alta     # baixa | media | alta | urgente
+solicitante: julia   # id em content/personas.yaml
+xp: 150
+estimativa: 1 h 30 min
+conceitos: [Pydantic, BaseModel, validação, field_validator, "mode=\"before\"", ValidationError, mensagens de erro]
+arquivos:            # arquivos que você edita, relativos à pasta suporte-inteligente/
+  - suporte/schemas.py
+criterios:
+  - texto: "`TicketEntrada` converte uma linha válida: `id` int, prioridade/status como enums, datas como `datetime`"
+    testes: [test_entrada_converte_tipos]
+  - texto: "Categoria e prioridade são limpas (strip + minúsculas), o assunto é normalizado e `fechado_em` vazio vira None"
+    testes: [test_entrada_limpa_campos]
+  - texto: "`id` que não é inteiro positivo gera `ValidationError`"
+    testes: [test_entrada_rejeita_id_invalido]
+  - texto: "Categoria vazia e prioridade desconhecida geram `ValidationError`"
+    testes: [test_entrada_rejeita_categoria_e_prioridade]
+  - texto: "`validar_linhas` separa válidos e erros, com mensagens `linha <n>: <campos>`"
+    testes: [test_validar_linhas_separa_validos_e_erros]
+  - texto: "Com `data/tickets_sujos.csv`: 36 válidos e 4 erros, os mesmos tickets do T009"
+    testes: [test_validar_linhas_dados_sujos]
+  - texto: "`para_ticket()` converte o modelo validado no `Ticket` do T014"
+    testes: [test_para_ticket]
+checagens:
+  - tipo: exigir_heranca
+    nome: BaseModel
+    arquivo: suporte/schemas.py
+    mensagem: "TicketEntrada deve herdar de pydantic.BaseModel."
+  - tipo: exigir_decorador
+    nome: field_validator
+    arquivo: suporte/schemas.py
+    mensagem: "Use @field_validator do Pydantic para as regras de limpeza e validação."
+  - tipo: exigir_import
+    modulo: pydantic
+    arquivo: suporte/schemas.py
+    mensagem: "Este ticket é sobre Pydantic: importe BaseModel e field_validator de pydantic."
+mensagemAbertura: "Júlia de novo 😬 O carregar_tickets_limpos do T009 funciona, mas quando uma linha é descartada ninguém sabe POR QUÊ. O time que exporta o arquivo quer saber qual linha e qual campo estão errados."
+mensagemConclusao: "Agora cada linha descartada vem com o motivo! Já mandei a lista de erros pro time que exporta o arquivo. E as regras ficaram todas num lugar só, declaradas no modelo."

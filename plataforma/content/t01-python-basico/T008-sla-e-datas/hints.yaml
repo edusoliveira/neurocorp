@@ -1,0 +1,31 @@
+# Para cada teste: título curto + dicas progressivas (da mais leve para a mais direta).
+# alvo (opcional): {arquivo, funcao} — onde o comentário aparece no código
+# quando o erro não aponta uma linha do seu arquivo.
+test_ordenar_mais_antigo_primeiro:
+  titulo: A fila não está do mais antigo para o mais recente
+  dicas:
+    - "`sorted(lista, key=...)` ordena usando o valor que a função `key` devolve para cada item."
+    - "`lambda t: datetime.fromisoformat(t[\"aberto_em\"])` é uma função curtinha que devolve a data de abertura do ticket."
+    - "Escreva: `return sorted(tickets, key=lambda t: datetime.fromisoformat(t[\"aberto_em\"]))`"
+  alvo: {arquivo: suporte/sla.py, funcao: ordenar_por_antiguidade}
+test_ordenar_nao_altera_original:
+  titulo: A lista recebida não pode mudar
+  dicas:
+    - "`tickets.sort()` ordena a lista de quem chamou a função — e devolve `None`."
+    - "`sorted(tickets, ...)` cria uma lista NOVA e deixa a original intacta."
+    - "Troque `tickets.sort(...)` por `return sorted(tickets, key=...)`."
+  alvo: {arquivo: suporte/sla.py, funcao: ordenar_por_antiguidade}
+test_fora_do_sla_basico:
+  titulo: A lista de tickets fora do SLA está errada
+  dicas:
+    - "Para cada ticket, converta `ticket[\"aberto_em\"]` com `datetime.fromisoformat` e calcule `agora - aberto_em`."
+    - "O resultado da subtração é um `timedelta`. Compare com `timedelta(hours=limite_horas)`."
+    - "Dentro do `for`: `if agora - datetime.fromisoformat(ticket[\"aberto_em\"]) > timedelta(hours=limite_horas): atrasados.append(ticket)`."
+  alvo: {arquivo: suporte/sla.py, funcao: tickets_fora_do_sla}
+test_fora_do_sla_fechados_e_limite:
+  titulo: Tickets fechados ou exatamente no limite entraram na lista
+  dicas:
+    - "Ticket fechado já foi resolvido — ele nunca está fora do SLA."
+    - "Exatamente 24h não é MAIS de 24h. Use `>`, não `>=`."
+    - "No começo do laço: `if ticket[\"status\"] == \"fechado\": continue` — o `continue` pula para o próximo ticket."
+  alvo: {arquivo: suporte/sla.py, funcao: tickets_fora_do_sla}

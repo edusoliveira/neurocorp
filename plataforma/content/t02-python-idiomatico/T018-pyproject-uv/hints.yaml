@@ -1,0 +1,29 @@
+# Para cada teste: título curto + dicas progressivas (da mais leve para a mais direta).
+# Sem `alvo`: o único arquivo do ticket é o pyproject.toml, então os comentários já caem nele.
+test_projeto_metadados:
+  titulo: "A seção `[project]` está faltando ou incompleta"
+  dicas:
+    - "O arquivo fica na RAIZ do projeto (pasta `suporte-inteligente`), não dentro de `suporte/`."
+    - "Em TOML, textos ficam entre aspas e o nome da seção entre colchetes: `[project]` numa linha, e as chaves `nome = \"valor\"` embaixo."
+    - "Escreva: `[project]` / `name = \"suporte-inteligente\"` / `version = \"0.1.0\"` / `requires-python = \">=3.12\"`."
+test_dependencias:
+  titulo: O pydantic não está nas dependências
+  dicas:
+    - "Com o uv: `uv add pydantic` adiciona sozinho."
+    - "À mão: dentro de `[project]`, `dependencies = [\"pydantic>=2.7\"]` (uma lista de textos)."
+test_dependencias_dev:
+  titulo: pytest e ruff deveriam estar no grupo dev
+  dicas:
+    - "Ferramentas de desenvolvimento não vão em `dependencies`: elas ficam num grupo separado."
+    - "Com o uv: `uv add --dev pytest ruff`."
+    - "À mão: uma seção `[dependency-groups]` com `dev = [\"pytest>=8.0\", \"ruff>=0.6\"]`."
+test_ruff_configurado:
+  titulo: "Faltou o `line-length` em `[tool.ruff]`"
+  dicas:
+    - "Configurações de ferramentas ficam em `[tool.<nome>]`."
+    - "Escreva: `[tool.ruff]` / `line-length = 120` (número, sem aspas)."
+test_comando_suporte:
+  titulo: "O comando `suporte` não foi declarado"
+  dicas:
+    - "A seção é `[project.scripts]`, e o formato do valor é `\"modulo:funcao\"`."
+    - "Escreva: `[project.scripts]` / `suporte = \"suporte.__main__:main\"`."

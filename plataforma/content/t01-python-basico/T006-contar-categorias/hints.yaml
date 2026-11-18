@@ -1,0 +1,30 @@
+# Para cada teste: título curto + dicas progressivas (da mais leve para a mais direta).
+# alvo (opcional): {arquivo, funcao} — onde o comentário aparece no código
+# quando o erro não aponta uma linha do seu arquivo.
+test_contar_por_categoria:
+  titulo: A contagem por categoria está errada
+  dicas:
+    - "Comece com um dicionário vazio `contagem = {}` e percorra os tickets com `for`."
+    - "Se a categoria ainda não está no dicionário, ela começa em 0. `contagem.get(categoria, 0)` resolve isso."
+    - "Dentro do laço: `categoria = ticket[\"categoria\"]` e `contagem[categoria] = contagem.get(categoria, 0) + 1`."
+  alvo: {arquivo: suporte/contagens.py, funcao: contar_por_categoria}
+test_contar_por_categoria_vazia:
+  titulo: Para uma lista vazia o resultado deveria ser {}
+  dicas:
+    - "Com a lista vazia o laço não roda. A função ainda precisa devolver o dicionário."
+    - "Confira se o `return contagem` está fora do `for`, no fim da função."
+  alvo: {arquivo: suporte/contagens.py, funcao: contar_por_categoria}
+test_categoria_mais_frequente:
+  titulo: A categoria mais frequente está errada
+  dicas:
+    - "Reaproveite: `contagem = contar_por_categoria(tickets)` já te dá os números."
+    - "Guarde a campeã e o maior valor até agora; percorra o dicionário e troque quando achar um valor maior."
+    - "Estrutura: `campea = None`, `maior = 0`, `for categoria in sorted(contagem):` / `if contagem[categoria] > maior:` / atualize `campea` e `maior`. No fim, `return campea`."
+  alvo: {arquivo: suporte/contagens.py, funcao: categoria_mais_frequente}
+test_categoria_mais_frequente_empate_e_vazia:
+  titulo: Empate ou lista vazia com resultado errado
+  dicas:
+    - "No empate vence a primeira em ordem alfabética. `sorted(contagem)` devolve as chaves em ordem alfabética."
+    - "Só troque a campeã com `>` (maior), nunca com `>=`. Assim, no empate, a primeira encontrada fica."
+    - "Se você começar com `campea = None`, a lista vazia já devolve `None` sozinha, porque o laço não roda."
+  alvo: {arquivo: suporte/contagens.py, funcao: categoria_mais_frequente}

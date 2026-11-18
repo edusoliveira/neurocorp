@@ -1,0 +1,33 @@
+id: T007
+titulo: Carregar os tickets do arquivo CSV
+tipo: feature        # feature | bug | melhoria | desafio
+prioridade: alta     # baixa | media | alta | urgente
+solicitante: marina  # id em content/personas.yaml
+xp: 110
+estimativa: 45 min
+conceitos: [arquivos, with open, encoding, módulo csv, DictReader, conversão de tipos]
+arquivos:            # arquivos que você edita, relativos à pasta suporte-inteligente/
+  - suporte/leitura.py
+criterios:
+  - texto: "`carregar_tickets` devolve uma lista com um dicionário por linha do CSV"
+    testes: [test_carregar_todas_as_linhas]
+  - texto: "O campo `id` vira número inteiro; os outros campos continuam texto"
+    testes: [test_carregar_id_inteiro]
+  - texto: "O arquivo é lido como UTF-8 (acentos aparecem certinhos)"
+    testes: [test_carregar_acentos_utf8]
+  - texto: "Um CSV só com o cabeçalho devolve lista vazia"
+    testes: [test_carregar_so_cabecalho]
+checagens:
+  - tipo: exigir_import
+    modulo: csv
+    arquivo: suporte/leitura.py
+    mensagem: "Use o módulo csv da biblioteca padrão (import csv) para ler o arquivo."
+  - tipo: exigir_chamada
+    nome: DictReader
+    arquivo: suporte/leitura.py
+    mensagem: "O ticket pede csv.DictReader, que já transforma cada linha num dicionário."
+  - tipo: proibir_import
+    modulo: pandas
+    mensagem: "Nada de pandas por enquanto! Aqui a gente pratica o módulo csv da biblioteca padrão."
+mensagemAbertura: "Oi, Marina aqui 👋 Até agora suas funções recebiam listas prontas. Hora de ler os tickets de verdade, direto do arquivo data/tickets.csv!"
+mensagemConclusao: "Excelente! Agora o nosso código conversa com os dados reais. Isso abre muitas portas."

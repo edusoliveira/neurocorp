@@ -1,0 +1,38 @@
+# Para cada teste: título curto + dicas progressivas (da mais leve para a mais direta).
+# alvo (opcional): {arquivo, funcao} — onde o comentário aparece no código
+# quando o erro não aponta uma linha do seu arquivo.
+test_limpos_linhas_validas:
+  titulo: As linhas boas não voltaram certas
+  dicas:
+    - "A função devolve DUAS coisas de uma vez: `return validos, descartados` cria uma tupla."
+    - "Comece igual ao T007: `with open(caminho, encoding=\"utf-8\", newline=\"\") as arquivo:` e `for linha in csv.DictReader(arquivo):`."
+    - "Antes do laço crie `validos = []` e `descartados = 0`; converta `linha[\"id\"] = int(linha[\"id\"])` e faça `validos.append(linha)`."
+  alvo: {arquivo: suporte/limpeza.py, funcao: carregar_tickets_limpos}
+test_limpos_normaliza_campos:
+  titulo: Categoria, prioridade ou assunto não foram limpos
+  dicas:
+    - "Dá pra encadear métodos de string: `\" ALTA \".strip().lower()` vira `\"alta\"`."
+    - "Para o assunto, reaproveite o que você já fez: `from suporte.texto import normalizar_assunto`."
+    - "Dentro do laço: `linha[\"categoria\"] = linha[\"categoria\"].strip().lower()`, o mesmo para `prioridade`, e `linha[\"assunto\"] = normalizar_assunto(linha[\"assunto\"])`."
+  alvo: {arquivo: suporte/limpeza.py, funcao: carregar_tickets_limpos}
+test_limpos_descarta_id_invalido:
+  titulo: Um id inválido quebrou o programa ou não foi descartado
+  dicas:
+    - "`int(\"abc\")` e `int(\"\")` geram `ValueError`. Use `try`/`except` para capturar esse erro."
+    - "Dentro do `except ValueError:`, some 1 em `descartados` e use `continue` para pular para a próxima linha."
+    - "Estrutura: `try:` / `linha[\"id\"] = int(linha[\"id\"])` / `except ValueError:` / `descartados += 1` / `continue`."
+  alvo: {arquivo: suporte/limpeza.py, funcao: carregar_tickets_limpos}
+test_limpos_descarta_categoria_e_prioridade:
+  titulo: Categoria vazia ou prioridade desconhecida passaram pelo filtro
+  dicas:
+    - "Faça a limpeza (strip + lower) ANTES de validar: `\"   \"` só fica vazia depois do `.strip()`."
+    - "Use `not in PRIORIDADES_VALIDAS` para checar a prioridade e `== \"\"` para a categoria."
+    - "Junte as duas regras com `or` num único `if`, assim uma linha com dois problemas conta uma vez só: `if linha[\"categoria\"] == \"\" or linha[\"prioridade\"] not in PRIORIDADES_VALIDAS:` / `descartados += 1` / `continue`."
+  alvo: {arquivo: suporte/limpeza.py, funcao: carregar_tickets_limpos}
+test_limpos_arquivo_misturado:
+  titulo: Com todos os problemas juntos, o resultado não bate
+  dicas:
+    - "Este teste imita o `data/tickets_sujos.csv`: 4 linhas sem salvação e 3 que só precisam de limpeza."
+    - "Confira a ordem dentro do laço: primeiro o `try` do id, depois a limpeza, depois a validação, e só então o `append`."
+    - "Rode `carregar_tickets_limpos(\"data/tickets_sujos.csv\")` no seu computador: o resultado deve ser 36 válidos e 4 descartados."
+  alvo: {arquivo: suporte/limpeza.py, funcao: carregar_tickets_limpos}

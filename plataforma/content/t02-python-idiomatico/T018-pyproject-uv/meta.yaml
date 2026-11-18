@@ -1,0 +1,24 @@
+id: T018
+titulo: Um pyproject.toml para o projeto (e o uv)
+tipo: melhoria       # feature | bug | melhoria | desafio
+prioridade: media    # baixa | media | alta | urgente
+solicitante: carlos  # id em content/personas.yaml
+xp: 170
+estimativa: 45 min
+conceitos: [pyproject.toml, TOML, dependências, grupos de dependência, uv, ruff, entry points]
+arquivos:            # arquivos que você edita, relativos à pasta suporte-inteligente/
+  - pyproject.toml   # não é .py: o analisar.py só confere se ele existe (sem checagens estáticas)
+criterios:
+  - texto: "`[project]` com `name = \"suporte-inteligente\"`, uma `version` e `requires-python` `>=3.12` (ou mais novo)"
+    testes: [test_projeto_metadados]
+  - texto: "`pydantic` está nas dependências do projeto"
+    testes: [test_dependencias]
+  - texto: "`pytest` e `ruff` estão no grupo de dependências `dev`"
+    testes: [test_dependencias_dev]
+  - texto: "`[tool.ruff]` define o `line-length`"
+    testes: [test_ruff_configurado]
+  - texto: "`[project.scripts]` cria o comando `suporte` apontando para `suporte.__main__:main`"
+    testes: [test_comando_suporte]
+checagens: []
+mensagemAbertura: "Carlos aqui. Uma pessoa nova entrou no time e levou meio dia para descobrir quais bibliotecas instalar para rodar o projeto. Isso não pode acontecer de novo: quero o projeto descrito num pyproject.toml."
+mensagemConclusao: "Agora qualquer pessoa clona o repositório, roda `uv sync` e está pronta. Bem-vindo(a) ao Python moderno."

@@ -1,0 +1,35 @@
+id: T019
+titulo: Repositório de tickets com Protocol
+tipo: feature        # feature | bug | melhoria | desafio
+prioridade: media    # baixa | media | alta | urgente
+solicitante: marina  # id em content/personas.yaml
+xp: 180
+estimativa: 1 h 30 min
+conceitos: [Protocol, tipagem estrutural, duck typing, padrão repositório, injeção de dependência, dataclasses.replace, csv.DictWriter]
+arquivos:            # arquivos que você edita, relativos à pasta suporte-inteligente/
+  - suporte/repositorio.py
+criterios:
+  - texto: "`RepositorioTickets` é um `Protocol` com `listar`, `buscar` e `salvar`"
+    testes: [test_protocolo_repositorio]
+  - texto: "`RepositorioEmMemoria` lista (na ordem) e busca por id (None se não existe)"
+    testes: [test_memoria_listar_e_buscar]
+  - texto: "`RepositorioEmMemoria.salvar` insere tickets novos e substitui os de mesmo id"
+    testes: [test_memoria_salvar_insere_e_atualiza]
+  - texto: "`RepositorioCsv` lê o arquivo com `Ticket.de_linha`"
+    testes: [test_csv_listar_e_buscar]
+  - texto: "`RepositorioCsv.salvar` grava no arquivo (inserindo ou atualizando) e outra instância enxerga a mudança"
+    testes: [test_csv_salvar_persiste]
+  - texto: "`RepositorioCsv` com arquivo inexistente: lista vazia, e `salvar` cria o arquivo com cabeçalho"
+    testes: [test_csv_arquivo_inexistente]
+  - texto: "`tickets_urgentes_abertos` funciona com qualquer objeto que tenha os métodos do protocolo"
+    testes: [test_urgentes_com_qualquer_repositorio]
+checagens:
+  - tipo: exigir_heranca
+    nome: Protocol
+    arquivo: suporte/repositorio.py
+    mensagem: "RepositorioTickets deve herdar de typing.Protocol."
+  - tipo: exigir_anotacoes
+    arquivo: suporte/repositorio.py
+    mensagem: "Todo método e função de repositorio.py precisa de tipo em cada parâmetro e no retorno."
+mensagemAbertura: "Marina de novo! Daqui a pouco os tickets vão sair do CSV e ir para um banco de dados. Não quero reescrever as regras de negócio quando isso acontecer — elas não deveriam saber de onde os tickets vêm."
+mensagemConclusao: "Isso é arquitetura! A regra de negócio agora depende só do contrato. Quando vier o banco, é só escrever um RepositorioPostgres com os mesmos três métodos."

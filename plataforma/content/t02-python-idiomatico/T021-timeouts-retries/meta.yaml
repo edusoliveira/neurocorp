@@ -1,0 +1,36 @@
+id: T021
+titulo: Timeouts e novas tentativas para a API instável
+tipo: melhoria       # feature | bug | melhoria | desafio
+prioridade: alta     # baixa | media | alta | urgente
+solicitante: marina  # id em content/personas.yaml
+xp: 200
+estimativa: 1 h 30 min
+conceitos: [asyncio.wait_for, TimeoutError, retry, backoff exponencial, exceções personalizadas, "genéricos (def f[T])"]
+arquivos:            # arquivos que você edita, relativos à pasta suporte-inteligente/
+  - suporte/resiliencia.py
+criterios:
+  - texto: "Quando a primeira tentativa dá certo, devolve o resultado com uma única chamada"
+    testes: [test_retry_sucesso_de_primeira]
+  - texto: "Repete após `ConnectionError` e `ErroTemporario` (exceção criada no arquivo) até dar certo"
+    testes: [test_retry_falha_e_depois_funciona]
+  - texto: "Depois de esgotar as tentativas, levanta a exceção da última; `tentativas` menor que 1 gera `ValueError`"
+    testes: [test_retry_esgota_tentativas]
+  - texto: "Cada tentativa tem `timeout`; uma tentativa travada vira `TimeoutError` e é repetida"
+    testes: [test_retry_timeout]
+  - texto: "Outras exceções (ex.: `ValueError`) sobem na hora, sem nova tentativa"
+    testes: [test_retry_nao_repete_outros_erros]
+  - texto: "Espera `espera_base * 2**n` entre as tentativas (backoff exponencial)"
+    testes: [test_retry_backoff_exponencial]
+checagens:
+  - tipo: exigir_async
+    arquivo: suporte/resiliencia.py
+    mensagem: "com_retry precisa ser uma função assíncrona (async def)."
+  - tipo: exigir_chamada
+    nome: wait_for
+    arquivo: suporte/resiliencia.py
+    mensagem: "Use asyncio.wait_for para colocar um timeout em cada tentativa."
+  - tipo: exigir_anotacoes
+    arquivo: suporte/resiliencia.py
+    mensagem: "Toda função de resiliencia.py precisa de tipo em cada parâmetro e no retorno."
+mensagemAbertura: "Marina aqui. O enriquecimento ficou rápido, mas a API do CRM é instável: às vezes cai a conexão, às vezes trava e nunca responde. Um cliente com problema não pode travar o relatório inteiro."
+mensagemConclusao: "Agora a API pode tropeçar à vontade 😎 Timeout + retry com backoff é o kit básico de sobrevivência de quem chama serviços externos — e APIs de LLM tropeçam bastante."

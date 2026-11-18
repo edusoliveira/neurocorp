@@ -1,0 +1,22 @@
+id: t02-python-idiomatico
+ordem: 2
+titulo: Python Idiomático
+descricao: O Python que se escreve no trabalho — o código da Trilha 1 vira código profissional, com tipos, modelos, validação, testes e concorrência.
+cargoAoConcluir: Desenvolvedor(a) Júnior II
+cor: "#0ea5e9"
+fase: Fase 0 · Base de engenharia Python
+periodo: nov – dez/2026
+topicos: [type hints, dataclasses, Enum, Pydantic, geradores, pyproject e uv, Protocol, pytest escrito por você, asyncio]
+projeto: "Desafio — pipeline tipado e assíncrono que valida, enriquece e resume os tickets"
+tickets:
+  - T012-type-hints
+  - T013-dataclass-ticket
+  - T014-enums
+  - T015-pydantic
+  - T016-pytest-proprio
+  - T017-geradores
+  - T018-pyproject-uv
+  - T019-protocol-repositorio
+  - T020-asyncio
+  - T021-timeouts-retries
+  - T022-desafio-pipeline

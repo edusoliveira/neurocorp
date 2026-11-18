@@ -1,0 +1,26 @@
+id: T004
+titulo: Padronizar o assunto dos tickets
+tipo: melhoria       # feature | bug | melhoria | desafio
+prioridade: media    # baixa | media | alta | urgente
+solicitante: julia   # id em content/personas.yaml
+xp: 80
+estimativa: 35 min
+conceitos: [strings, métodos de string, split, join, lower, in, listas]
+arquivos:            # arquivos que você edita, relativos à pasta suporte-inteligente/
+  - suporte/texto.py
+criterios:
+  - texto: "`normalizar_assunto` tira os espaços das pontas e junta espaços repetidos"
+    testes: [test_normalizar_remove_espacos]
+  - texto: "`normalizar_assunto` deixa só a primeira letra maiúscula e o resto minúsculo"
+    testes: [test_normalizar_maiusculas]
+  - texto: "`parece_urgente` encontra as palavras-chave sem ligar para maiúsculas"
+    testes: [test_parece_urgente_detecta]
+  - texto: "`parece_urgente` devolve False quando nenhuma palavra-chave aparece"
+    testes: [test_parece_urgente_falso]
+checagens:
+  - tipo: exigir_chamada
+    nome: lower
+    arquivo: suporte/texto.py
+    mensagem: "Para comparar sem ligar para maiúsculas, transforme o texto com .lower()."
+mensagemAbertura: "Oi de novo! Os assuntos dos tickets chegam de todo jeito: TUDO MAIÚSCULO, cheio de espaço... e alguns são urgentes mas ninguém percebe. Bora arrumar isso?"
+mensagemConclusao: "Ficou lindo! A lista de tickets finalmente parece organizada. E o alerta de urgência já salvou um cliente hoje 😄"

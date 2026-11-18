@@ -1,0 +1,41 @@
+# Para cada teste: título curto + dicas progressivas (da mais leve para a mais direta).
+# alvo (opcional): {arquivo, funcao} — onde o comentário aparece no código
+# quando o erro não aponta uma linha do seu arquivo.
+test_prioridade_enum:
+  titulo: O enum `Prioridade` está faltando ou com valores errados
+  dicas:
+    - "Importe com `from enum import StrEnum` e crie `class Prioridade(StrEnum):`."
+    - "Cada membro é uma linha `NOME = \"valor\"`. O nome em MAIÚSCULAS, o valor igual ao do CSV."
+    - "Na ordem: `BAIXA = \"baixa\"`, `MEDIA = \"media\"`, `ALTA = \"alta\"`, `URGENTE = \"urgente\"`."
+test_status_enum:
+  titulo: O enum `Status` está faltando ou com valores errados
+  dicas:
+    - "Mesma ideia da `Prioridade`: `class Status(StrEnum):`."
+    - "Na ordem: `ABERTO = \"aberto\"`, `EM_ANDAMENTO = \"em_andamento\"`, `FECHADO = \"fechado\"`."
+test_peso_da_prioridade:
+  titulo: "`Prioridade.peso` devolveu um valor errado"
+  dicas:
+    - "Dentro do enum, `self` é o membro (ex.: `Prioridade.ALTA`). Uma `@property` chamada `peso` pode olhar para ele."
+    - "Um dicionário resolve: `{Prioridade.BAIXA: 1, Prioridade.MEDIA: 2, ...}[self]`. Ele pode ficar fora da classe, porque a property só roda depois."
+    - "Escreva: `@property` / `def peso(self) -> int:` / `return PESOS[self]`, com `PESOS = {Prioridade.BAIXA: 1, Prioridade.MEDIA: 2, Prioridade.ALTA: 3, Prioridade.URGENTE: 4}` logo depois da classe."
+  alvo: {arquivo: suporte/modelos.py, funcao: peso}
+test_de_linha_usa_enums:
+  titulo: "`de_linha` ainda devolve texto em vez dos enums"
+  dicas:
+    - "Mude os tipos dos campos para `prioridade: Prioridade` e `status: Status`."
+    - "Converter texto em membro é chamar o enum: `Prioridade(\"alta\")` devolve `Prioridade.ALTA`."
+    - "No `de_linha`: `prioridade=Prioridade(linha[\"prioridade\"])` e `status=Status(linha[\"status\"])`. No `esta_aberto`: `return self.status != Status.FECHADO`."
+  alvo: {arquivo: suporte/modelos.py, funcao: de_linha}
+test_de_linha_rejeita_valor_desconhecido:
+  titulo: Um valor inventado deveria gerar ValueError
+  dicas:
+    - "`Prioridade(\"altíssima\")` já gera `ValueError` sozinho. Se o erro não apareceu, a conversão não está sendo feita."
+    - "Confira se o `de_linha` passa `linha[\"prioridade\"]` e `linha[\"status\"]` pelos enums, e não captura o erro com `try`."
+  alvo: {arquivo: suporte/modelos.py, funcao: de_linha}
+test_ordenar_por_urgencia:
+  titulo: "`ordenar_por_urgencia` não ordenou do jeito pedido"
+  dicas:
+    - "`sorted(lista, key=...)` devolve uma lista nova; a `key` diz o que comparar."
+    - "Uma tupla como chave compara o primeiro item e desempata pelo segundo. Para o mais urgente vir primeiro, use o peso negativo."
+    - "Escreva: `return sorted(tickets, key=lambda t: (-t.prioridade.peso, t.aberto_em))`."
+  alvo: {arquivo: suporte/modelos.py, funcao: ordenar_por_urgencia}

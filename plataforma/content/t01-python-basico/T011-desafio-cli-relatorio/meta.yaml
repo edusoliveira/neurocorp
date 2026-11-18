@@ -1,0 +1,44 @@
+id: T011
+titulo: "Desafio de promoção: o relatório na linha de comando"
+tipo: desafio        # feature | bug | melhoria | desafio
+prioridade: alta     # baixa | media | alta | urgente
+solicitante: carlos  # id em content/personas.yaml
+xp: 300
+estimativa: 2 h
+semDicas: true
+conceitos: [linha de comando, argparse, python -m, stderr, códigos de saída, integração de módulos]
+arquivos:            # arquivos que você edita, relativos à pasta suporte-inteligente/
+  - suporte/__main__.py
+criterios:
+  - texto: "`relatorio <csv> --saida <json>` gera o arquivo JSON com o relatório e devolve 0"
+    testes: [test_cli_gera_arquivo_json]
+  - texto: "Imprime o resumo exatamente nas 5 linhas pedidas"
+    testes: [test_cli_resumo_impresso]
+  - texto: "Usa a limpeza do T009: linhas inválidas são descartadas e contadas"
+    testes: [test_cli_limpa_dados_sujos]
+  - texto: "Se o CSV não existe, mostra um erro amigável no stderr e devolve 1"
+    testes: [test_cli_arquivo_inexistente]
+  - texto: "Funciona de verdade com `python -m suporte` e o arquivo data/tickets.csv"
+    testes: [test_cli_python_m_com_dados_reais]
+checagens:
+  - tipo: exigir_import
+    modulo: argparse
+    arquivo: suporte/__main__.py
+    mensagem: "O desafio pede argparse para ler os argumentos da linha de comando."
+  - tipo: exigir_chamada
+    nome: carregar_tickets_limpos
+    arquivo: suporte/__main__.py
+    mensagem: "Reaproveite carregar_tickets_limpos do T009 para ler o CSV."
+  - tipo: exigir_chamada
+    nome: gerar_relatorio
+    arquivo: suporte/__main__.py
+    mensagem: "Reaproveite gerar_relatorio do T010."
+  - tipo: exigir_chamada
+    nome: salvar_relatorio
+    arquivo: suporte/__main__.py
+    mensagem: "Reaproveite salvar_relatorio do T010."
+  - tipo: proibir_import
+    modulo: pandas
+    mensagem: "Nada de pandas: o desafio é juntar o que VOCÊ construiu."
+mensagemAbertura: "Olá, aqui é o Carlos, CTO. Acompanhei seus tickets e gostei muito do que vi. Antes da sua promoção, um último desafio: transformar tudo isso numa ferramenta de linha de comando que o time de operações roda todo dia. Sem dicas desta vez — confio em você."
+mensagemConclusao: "Parabéns! 🎉 Você saiu do script de boas-vindas para uma ferramenta de verdade, com módulos, testes e tratamento de erros. Bem-vindo(a) ao time como Desenvolvedor(a) Júnior!"

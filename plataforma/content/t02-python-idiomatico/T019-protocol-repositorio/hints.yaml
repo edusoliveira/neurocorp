@@ -1,0 +1,50 @@
+# Para cada teste: título curto + dicas progressivas (da mais leve para a mais direta).
+# alvo (opcional): {arquivo, funcao} — onde o comentário aparece no código
+# quando o erro não aponta uma linha do seu arquivo.
+test_protocolo_repositorio:
+  titulo: "`RepositorioTickets` não é um Protocol com os três métodos"
+  dicas:
+    - "Importe com `from typing import Protocol` e declare `class RepositorioTickets(Protocol):`."
+    - "Dentro dele, só as assinaturas, com `...` no lugar do corpo: `def listar(self) -> list[Ticket]: ...`."
+    - "Os três: `listar(self) -> list[Ticket]`, `buscar(self, id_ticket: int) -> Ticket | None` e `salvar(self, ticket: Ticket) -> None`. Nada além deles."
+  alvo: {arquivo: suporte/repositorio.py}
+test_memoria_listar_e_buscar:
+  titulo: "`RepositorioEmMemoria` não listou ou não buscou certo"
+  dicas:
+    - "Guarde os tickets num dicionário id → ticket, criado no `__init__`: `self._tickets = {t.id: t for t in tickets}`."
+    - "O parâmetro é opcional: use um padrão que não seja uma lista mutável, como `tickets: Iterable[Ticket] = ()` ou `None`."
+    - "`listar` devolve `list(self._tickets.values())` (lista nova) e `buscar` devolve `self._tickets.get(id_ticket)`."
+  alvo: {arquivo: suporte/repositorio.py, funcao: listar}
+test_memoria_salvar_insere_e_atualiza:
+  titulo: "`RepositorioEmMemoria.salvar` não inseriu ou não substituiu"
+  dicas:
+    - "Num dicionário, atribuir numa chave nova adiciona no fim; numa chave existente, substitui mantendo a posição."
+    - "Escreva: `self._tickets[ticket.id] = ticket`."
+  alvo: {arquivo: suporte/repositorio.py, funcao: salvar}
+test_csv_listar_e_buscar:
+  titulo: "`RepositorioCsv` não leu os tickets do arquivo"
+  dicas:
+    - "Guarde o caminho no `__init__` (`self.caminho = Path(caminho)`) e leia o arquivo dentro do `listar`."
+    - "Abra com `encoding=\"utf-8\", newline=\"\"` e converta cada linha: `[Ticket.de_linha(linha) for linha in csv.DictReader(arquivo)]`."
+    - "Para o `buscar`, percorra `self.listar()` procurando o id; se não achar, `return None`."
+  alvo: {arquivo: suporte/repositorio.py, funcao: listar}
+test_csv_salvar_persiste:
+  titulo: "`RepositorioCsv.salvar` não gravou a mudança no arquivo"
+  dicas:
+    - "Monte um dicionário id → ticket a partir do `listar()`, coloque o ticket novo nele (igual ao repositório em memória) e regrave tudo."
+    - "Para gravar: `csv.DictWriter(arquivo, fieldnames=COLUNAS)`, `writeheader()` e `writerow(...)` com cada ticket convertido para texto."
+    - "Conversão: `str(ticket.id)`, `str(ticket.prioridade)`, `ticket.aberto_em.isoformat(timespec=\"minutes\")` e `\"\"` quando `fechado_em` é None."
+  alvo: {arquivo: suporte/repositorio.py, funcao: salvar}
+test_csv_arquivo_inexistente:
+  titulo: Com o arquivo inexistente, o repositório quebrou
+  dicas:
+    - "No `listar`, confira antes de abrir: `if not self.caminho.exists(): return []`."
+    - "Abrir com `\"w\"` cria o arquivo se ele não existe — o `salvar` não precisa de nada especial além disso."
+  alvo: {arquivo: suporte/repositorio.py, funcao: listar}
+test_urgentes_com_qualquer_repositorio:
+  titulo: "`tickets_urgentes_abertos` não funcionou com um repositório qualquer"
+  dicas:
+    - "A função só pode usar os métodos do protocolo: pegue os tickets com `repo.listar()`. Nada de `isinstance` nem de abrir arquivos."
+    - "Filtre por `t.prioridade == Prioridade.URGENTE and t.esta_aberto`."
+    - "Ordene o resultado com `sorted(urgentes, key=lambda t: t.aberto_em)`."
+  alvo: {arquivo: suporte/repositorio.py, funcao: tickets_urgentes_abertos}

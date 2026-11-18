@@ -1,0 +1,51 @@
+# Para cada teste: título curto + dicas progressivas (da mais leve para a mais direta).
+# alvo (opcional): {arquivo, funcao} — onde o comentário aparece no código
+# quando o erro não aponta uma linha do seu arquivo.
+test_tem_pelo_menos_5_testes:
+  titulo: O arquivo precisa de pelo menos 5 funções de teste
+  dicas:
+    - "O pytest só reconhece funções cujo nome começa com `test_`, e que estejam fora de comentários."
+    - "Uma boa divisão: um teste para cliente comum, um para cada limite (8h e 24h) e dois ou três para o VIP."
+  alvo: {arquivo: tests/test_prioridade.py}
+test_testes_passam_com_codigo_correto:
+  titulo: Seus testes falham com a regra correta
+  dicas:
+    - "Se um teste falha com o código certo, o valor esperado no `assert` está errado. Rode `python -m pytest tests/test_prioridade.py -v` e veja qual."
+    - "Releia a tabela do ticket: as regras usam MAIS DE (`>`). Com exatamente 8 horas o resultado ainda é `\"baixa\"`; com exatamente 24, ainda é `\"media\"`."
+    - "Confira o import: `from suporte.prioridade import classificar_prioridade`, e a ordem dos argumentos: primeiro as horas, depois o VIP (True/False)."
+  alvo: {arquivo: tests/test_prioridade.py}
+test_pega_mutante_vip_ignorado:
+  titulo: "Mutante sobreviveu: a regra do VIP foi apagada e ninguém percebeu"
+  dicas:
+    - "Algum teste seu chama a função com `cliente_vip=True`?"
+    - "Um VIP com mais de 2 horas (e menos de 8) deveria ser `\"urgente\"`; sem a regra VIP, ele seria `\"baixa\"`."
+    - "Exemplo: `assert classificar_prioridade(3, True) == \"urgente\"`."
+  alvo: {arquivo: tests/test_prioridade.py}
+test_pega_mutante_limite_vip:
+  titulo: "Mutante sobreviveu: o VIP com exatamente 2 horas virou urgente"
+  dicas:
+    - "Este mutante troca `horas_aberto > 2` por `horas_aberto >= 2`. Que valor de horas dá resultado diferente nas duas versões?"
+    - "Só exatamente 2 horas muda: na regra certa, um VIP com 2 horas ainda NÃO é urgente."
+    - "Exemplo: `assert classificar_prioridade(2, True) == \"baixa\"`."
+  alvo: {arquivo: tests/test_prioridade.py}
+test_pega_mutante_limite_media:
+  titulo: "Mutante sobreviveu: com exatamente 8 horas o ticket virou média"
+  dicas:
+    - "Este mutante troca `> 8` por `>= 8`. Seus testes conferem o que acontece exatamente no limite?"
+    - "Na regra certa, um cliente comum com exatamente 8 horas ainda é `\"baixa\"`."
+    - "Exemplo: `assert classificar_prioridade(8, False) == \"baixa\"`."
+  alvo: {arquivo: tests/test_prioridade.py}
+test_pega_mutante_limite_alta:
+  titulo: "Mutante sobreviveu: com exatamente 24 horas o ticket virou alta"
+  dicas:
+    - "Este mutante troca `> 24` por `>= 24`. Teste o valor exato da fronteira."
+    - "Na regra certa, um cliente comum com exatamente 24 horas ainda é `\"media\"`."
+    - "Exemplo: `assert classificar_prioridade(24, False) == \"media\"`."
+  alvo: {arquivo: tests/test_prioridade.py}
+test_pega_mutante_vip_depois_de_alta:
+  titulo: "Mutante sobreviveu: um VIP com muitas horas virou só \"alta\""
+  dicas:
+    - "Este mutante confere as 24 horas ANTES de olhar se o cliente é VIP. Para qual combinação isso muda o resultado?"
+    - "Um VIP aberto há mais de 24 horas continua `\"urgente\"` — VIP vence."
+    - "Exemplo: `assert classificar_prioridade(30, True) == \"urgente\"`."
+  alvo: {arquivo: tests/test_prioridade.py}

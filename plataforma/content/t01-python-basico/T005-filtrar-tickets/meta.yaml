@@ -1,0 +1,25 @@
+id: T005
+titulo: Contar e filtrar tickets da fila
+tipo: feature        # feature | bug | melhoria | desafio
+prioridade: media    # baixa | media | alta | urgente
+solicitante: julia   # id em content/personas.yaml
+xp: 90
+estimativa: 40 min
+conceitos: [listas, for, acumuladores, dicionários (leitura), append]
+arquivos:            # arquivos que você edita, relativos à pasta suporte-inteligente/
+  - suporte/filtros.py
+criterios:
+  - texto: "`contar_abertos` conta os tickets cujo status não é \"fechado\""
+    testes: [test_contar_abertos]
+  - texto: "`contar_abertos` devolve 0 para uma lista vazia"
+    testes: [test_contar_abertos_lista_vazia]
+  - texto: "`filtrar_por_prioridade` devolve só os tickets da prioridade pedida, na ordem original"
+    testes: [test_filtrar_por_prioridade]
+  - texto: "`filtrar_por_prioridade` devolve lista vazia quando nada combina, sem alterar a lista recebida"
+    testes: [test_filtrar_sem_resultados]
+checagens:
+  - tipo: exigir_laco
+    arquivo: suporte/filtros.py
+    mensagem: "Este ticket é para praticar laços: percorra a lista de tickets com um for."
+mensagemAbertura: "Júlia aqui! Agora que temos prioridades, quero ver a fila: quantos tickets ainda estão abertos e quais são os urgentes. Você consegue percorrer a lista pra mim?"
+mensagemConclusao: "Isso! Já coloquei no painel da equipe: 'abertos agora' e 'só os urgentes'. Todo mundo amou."

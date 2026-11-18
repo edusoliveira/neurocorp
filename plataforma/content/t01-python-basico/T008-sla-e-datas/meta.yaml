@@ -1,0 +1,26 @@
+id: T008
+titulo: Fila por antiguidade e tickets fora do SLA
+tipo: feature        # feature | bug | melhoria | desafio
+prioridade: alta     # baixa | media | alta | urgente
+solicitante: julia   # id em content/personas.yaml
+xp: 120
+estimativa: 50 min
+conceitos: [sorted, key, lambda, datetime, fromisoformat, timedelta, cópia de listas]
+arquivos:            # arquivos que você edita, relativos à pasta suporte-inteligente/
+  - suporte/sla.py
+criterios:
+  - texto: "`ordenar_por_antiguidade` devolve os tickets do mais antigo para o mais recente"
+    testes: [test_ordenar_mais_antigo_primeiro]
+  - texto: "`ordenar_por_antiguidade` não altera a lista recebida"
+    testes: [test_ordenar_nao_altera_original]
+  - texto: "`tickets_fora_do_sla` devolve os tickets abertos há mais tempo que o limite"
+    testes: [test_fora_do_sla_basico]
+  - texto: "Tickets fechados e tickets exatamente no limite não entram"
+    testes: [test_fora_do_sla_fechados_e_limite]
+checagens:
+  - tipo: exigir_chamada
+    nome: fromisoformat
+    arquivo: suporte/sla.py
+    mensagem: "Para fazer contas com as datas, converta o texto com datetime.fromisoformat(...)."
+mensagemAbertura: "Júlia aqui, com um problema sério: temos um SLA (prazo máximo de atendimento) e estamos estourando sem perceber. Preciso ver a fila por ordem de chegada e saber quem já passou do prazo."
+mensagemConclusao: "Maravilha! Agora a gente pega os atrasados antes do cliente reclamar. Você está voando 🚀"

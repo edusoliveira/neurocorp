@@ -1,0 +1,30 @@
+# Para cada teste: título curto + dicas progressivas (da mais leve para a mais direta).
+# alvo (opcional): {arquivo, funcao} — onde o comentário aparece no código
+# quando o erro não aponta uma linha do seu arquivo.
+test_contar_abertos:
+  titulo: A contagem de tickets abertos está errada
+  dicas:
+    - "Comece com um contador valendo 0 e some 1 a cada ticket que não está fechado."
+    - "Dentro do `for ticket in tickets:`, o status é `ticket[\"status\"]`. Compare com `!= \"fechado\"`."
+    - "Estrutura: `total = 0`, depois `for ticket in tickets:` / `if ticket[\"status\"] != \"fechado\":` / `total += 1`, e no fim `return total`."
+  alvo: {arquivo: suporte/filtros.py, funcao: contar_abertos}
+test_contar_abertos_lista_vazia:
+  titulo: Com a lista vazia o resultado deveria ser 0
+  dicas:
+    - "Se a lista estiver vazia, o `for` não roda nenhuma vez. O que a função devolve então?"
+    - "Garanta que o `return total` está FORA do `for` (sem a indentação do laço)."
+  alvo: {arquivo: suporte/filtros.py, funcao: contar_abertos}
+test_filtrar_por_prioridade:
+  titulo: O filtro por prioridade devolveu os tickets errados
+  dicas:
+    - "Crie uma lista vazia antes do laço e vá colocando nela só os tickets que combinam."
+    - "Compare `ticket[\"prioridade\"] == prioridade` e use `resultado.append(ticket)` quando for verdade."
+    - "Estrutura: `resultado = []`, `for ticket in tickets:`, `if ticket[\"prioridade\"] == prioridade:`, `resultado.append(ticket)` e, depois do laço, `return resultado`."
+  alvo: {arquivo: suporte/filtros.py, funcao: filtrar_por_prioridade}
+test_filtrar_sem_resultados:
+  titulo: Quando nada combina, devolva [] sem mexer na lista original
+  dicas:
+    - "Se nenhum ticket combinar, a lista nova continua vazia — basta devolvê-la."
+    - "Não use `tickets.remove(...)` nem `del`: isso altera a lista de quem chamou a função."
+    - "Crie `resultado = []` no começo e só use `resultado.append(...)`; no fim, `return resultado`."
+  alvo: {arquivo: suporte/filtros.py, funcao: filtrar_por_prioridade}

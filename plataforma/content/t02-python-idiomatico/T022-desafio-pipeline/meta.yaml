@@ -1,0 +1,52 @@
+id: T022
+titulo: "Desafio de promoção: o pipeline tipado e assíncrono"
+tipo: desafio        # feature | bug | melhoria | desafio
+prioridade: alta     # baixa | media | alta | urgente
+solicitante: carlos  # id em content/personas.yaml
+xp: 400
+estimativa: 3 h
+semDicas: true
+conceitos: [integração de módulos, Pydantic, dataclass, Enum, asyncio, retry, tratamento de falhas parciais, type hints]
+arquivos:            # arquivos que você edita, relativos à pasta suporte-inteligente/
+  - suporte/pipeline.py
+criterios:
+  - texto: "`Resumo` é um modelo Pydantic com os 5 campos pedidos"
+    testes: [test_resumo_e_modelo_pydantic]
+  - texto: "Com um CSV pequeno, o resumo traz os totais, a contagem por prioridade e os erros de validação"
+    testes: [test_processar_csv_pequeno]
+  - texto: "Cada cliente distinto dos tickets válidos é consultado uma vez só"
+    testes: [test_processar_consulta_cada_cliente_uma_vez]
+  - texto: "Falhas temporárias são repetidas; um cliente que falha de vez vira erro no resumo, sem derrubar o pipeline"
+    testes: [test_processar_falhas_de_clientes]
+  - texto: "Nunca há mais de `limite` consultas em andamento"
+    testes: [test_processar_respeita_limite]
+  - texto: "Com data/tickets_sujos.csv: 36 válidos, 4 descartados e as mesmas contagens do T009"
+    testes: [test_processar_dados_sujos]
+checagens:
+  - tipo: exigir_async
+    arquivo: suporte/pipeline.py
+    mensagem: "processar precisa ser uma função assíncrona (async def)."
+  - tipo: exigir_heranca
+    nome: BaseModel
+    arquivo: suporte/pipeline.py
+    mensagem: "Resumo deve ser um modelo Pydantic (herdar de BaseModel)."
+  - tipo: exigir_anotacoes
+    arquivo: suporte/pipeline.py
+    mensagem: "Todo o pipeline.py precisa de type hints completos — inclusive funções internas."
+  - tipo: exigir_chamada
+    nome: validar_linhas
+    arquivo: suporte/pipeline.py
+    mensagem: "Reaproveite validar_linhas do T015 para validar as linhas."
+  - tipo: exigir_chamada
+    nome: enriquecer_todos
+    arquivo: suporte/pipeline.py
+    mensagem: "Reaproveite enriquecer_todos do T020 para consultar os clientes."
+  - tipo: exigir_chamada
+    nome: com_retry
+    arquivo: suporte/pipeline.py
+    mensagem: "Reaproveite com_retry do T021 para sobreviver às falhas da API."
+  - tipo: proibir_import
+    modulo: pandas
+    mensagem: "Nada de pandas: o desafio é juntar o que VOCÊ construiu."
+mensagemAbertura: "Carlos aqui. Você transformou scripts soltos em peças profissionais: modelos tipados, validação, repositório, concorrência, resiliência. Último passo antes da promoção: juntar tudo num pipeline só. Sem dicas — você já tem todas as peças."
+mensagemConclusao: "Parabéns! 🎉 Esse pipeline é o esqueleto de um sistema de verdade: dados validados, tipos em tudo e chamadas externas concorrentes e resilientes. Na próxima trilha, a API de mentira vira um modelo de IA. Bem-vindo(a) ao nível Júnior II!"

@@ -1,0 +1,26 @@
+id: T002
+titulo: Métricas do dia com funções
+tipo: feature        # feature | bug | melhoria | desafio
+prioridade: media    # baixa | media | alta | urgente
+solicitante: rafael  # id em content/personas.yaml
+xp: 60
+estimativa: 25 min
+conceitos: [funções, parâmetros, return, aritmética, round]
+arquivos:            # arquivos que você edita, relativos à pasta suporte-inteligente/
+  - suporte/metricas.py
+criterios:
+  - texto: "`calcular_pendentes` devolve quantos tickets ainda não foram resolvidos"
+    testes: [test_calcular_pendentes]
+  - texto: "`calcular_taxa_resolucao` devolve a porcentagem de resolvidos"
+    testes: [test_taxa_resolucao_basica]
+  - texto: "A taxa é arredondada para 1 casa decimal"
+    testes: [test_taxa_resolucao_arredonda]
+  - texto: "Com 0 tickets recebidos a taxa é 0.0 (sem quebrar o programa)"
+    testes: [test_taxa_resolucao_sem_tickets]
+checagens:
+  - tipo: exigir_chamada
+    nome: round
+    arquivo: suporte/metricas.py
+    mensagem: "A taxa precisa ser arredondada para 1 casa decimal — use round(valor, 1)."
+mensagemAbertura: "Oi! Aqui é o Rafael, de produto. Toda reunião eu fico fazendo conta de cabeça pra saber como o suporte está indo... Pode criar duas funções que façam isso por mim?"
+mensagemConclusao: "Perfeito! Agora é só chamar a função e pronto, sem calculadora. Valeu demais!"

@@ -1,0 +1,32 @@
+id: T016
+titulo: Escreva os testes da regra de prioridade
+tipo: feature        # feature | bug | melhoria | desafio
+prioridade: alta     # baixa | media | alta | urgente
+solicitante: marina  # id em content/personas.yaml
+xp: 160
+estimativa: 1 h
+conceitos: [pytest, assert, funções de teste, casos de borda, valores-limite, pytest.mark.parametrize, testes de mutação]
+arquivos:            # arquivos que você edita, relativos à pasta suporte-inteligente/
+  - tests/test_prioridade.py
+criterios:
+  - texto: "`tests/test_prioridade.py` tem pelo menos 5 funções de teste"
+    testes: [test_tem_pelo_menos_5_testes]
+  - texto: "Seus testes passam com a regra correta do T003"
+    testes: [test_testes_passam_com_codigo_correto]
+  - texto: "Pegam o mutante que ignora o cliente VIP"
+    testes: [test_pega_mutante_vip_ignorado]
+  - texto: "Pegam o mutante que erra o limite de 2 horas do VIP (`>=` no lugar de `>`)"
+    testes: [test_pega_mutante_limite_vip]
+  - texto: "Pegam o mutante que erra o limite de 8 horas (`>=` no lugar de `>`)"
+    testes: [test_pega_mutante_limite_media]
+  - texto: "Pegam o mutante que erra o limite de 24 horas (`>=` no lugar de `>`)"
+    testes: [test_pega_mutante_limite_alta]
+  - texto: "Pegam o mutante que confere as 24 horas antes do VIP"
+    testes: [test_pega_mutante_vip_depois_de_alta]
+checagens:
+  - tipo: exigir_chamada
+    nome: classificar_prioridade
+    arquivo: tests/test_prioridade.py
+    mensagem: "Seus testes precisam chamar classificar_prioridade (from suporte.prioridade import classificar_prioridade)."
+mensagemAbertura: "Até agora quem escrevia os testes era o Tech Lead Bot. Hoje inverte: você escreve os testes, e o Bot tenta enganar eles com versões bugadas da regra de prioridade. Bora?"
+mensagemConclusao: "Seus testes pegaram todos os mutantes! 🧬 Agora, se alguém mexer na regra de prioridade sem querer, o pytest avisa na hora. Daqui pra frente, todo ticket seu vem com teste."

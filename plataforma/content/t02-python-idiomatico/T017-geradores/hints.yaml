@@ -1,0 +1,42 @@
+# Para cada teste: título curto + dicas progressivas (da mais leve para a mais direta).
+# alvo (opcional): {arquivo, funcao} — onde o comentário aparece no código
+# quando o erro não aponta uma linha do seu arquivo.
+test_ler_em_lotes_e_gerador:
+  titulo: "`ler_em_lotes` deveria ser um gerador"
+  dicas:
+    - "Basta existir um `yield` no corpo para a função virar geradora. Com `return lista`, ela lê tudo de uma vez."
+    - "Num gerador, o código (inclusive o `open`) só roda quando alguém pede o primeiro item — por isso o erro de arquivo inexistente aparece só no `next`."
+    - "Estrutura: `with open(caminho, encoding=\"utf-8\", newline=\"\") as arquivo:` / `for lote in batched(csv.DictReader(arquivo), tamanho):` / `yield list(lote)`."
+  alvo: {arquivo: suporte/streaming.py, funcao: ler_em_lotes}
+test_ler_em_lotes_tamanhos:
+  titulo: Os lotes saíram com o tamanho errado
+  dicas:
+    - "Se for montar na mão: comece com `lote = []`, faça `append` de cada linha e, quando `len(lote) == tamanho`, dê `yield lote` e recomece com `lote = []`."
+    - "Depois do `for`, ainda pode sobrar um lote incompleto — ele também precisa ser entregue."
+    - "Ou use `from itertools import batched`: `batched(leitor, tamanho)` já agrupa; só converta cada grupo com `list(...)`."
+  alvo: {arquivo: suporte/streaming.py, funcao: ler_em_lotes}
+test_ler_em_lotes_sem_lote_vazio:
+  titulo: Apareceu um lote vazio
+  dicas:
+    - "Quando o número de linhas é múltiplo do tamanho, o lote que sobra no fim está vazio."
+    - "Antes do `yield` final (fora do `for`), confira: `if lote:` — lista vazia é falsa."
+  alvo: {arquivo: suporte/streaming.py, funcao: ler_em_lotes}
+test_ler_em_lotes_tamanho_invalido:
+  titulo: "`tamanho` menor que 1 deveria gerar ValueError"
+  dicas:
+    - "Confira o `tamanho` logo no começo da função, antes de abrir o arquivo."
+    - "Escreva: `if tamanho < 1: raise ValueError(\"tamanho deve ser pelo menos 1\")`."
+  alvo: {arquivo: suporte/streaming.py, funcao: ler_em_lotes}
+test_contar_por_status_percorre_uma_vez:
+  titulo: "`contar_por_status` não funcionou com um iterável qualquer"
+  dicas:
+    - "Não use `len(linhas)` nem `linhas[0]`: um gerador não tem tamanho nem índice. Só `for`."
+    - "Não percorra duas vezes (por exemplo, um `for` para descobrir os status e outro para contar)."
+    - "Um único laço: `contagem[linha[\"status\"]] = contagem.get(linha[\"status\"], 0) + 1`."
+  alvo: {arquivo: suporte/streaming.py, funcao: contar_por_status}
+test_contar_com_lotes_dados_reais:
+  titulo: A contagem de data/tickets.csv não bateu
+  dicas:
+    - "Rode o script da seção \"Como testar\" e compare com o que você espera."
+    - "Se os testes anteriores passam, confira se nenhum lote está sendo pulado ou repetido."
+  alvo: {arquivo: suporte/streaming.py, funcao: ler_em_lotes}

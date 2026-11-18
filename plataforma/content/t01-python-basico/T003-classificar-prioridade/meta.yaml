@@ -1,0 +1,22 @@
+id: T003
+titulo: Classificar a prioridade de um ticket
+tipo: feature        # feature | bug | melhoria | desafio
+prioridade: alta     # baixa | media | alta | urgente
+solicitante: julia   # id em content/personas.yaml
+xp: 70
+estimativa: 30 min
+conceitos: [if, elif, else, operadores de comparação, and, booleanos]
+arquivos:            # arquivos que você edita, relativos à pasta suporte-inteligente/
+  - suporte/prioridade.py
+criterios:
+  - texto: "Tickets com até 8 horas (e sem regra de VIP) são \"baixa\""
+    testes: [test_prioridade_baixa]
+  - texto: "Mais de 8 horas é \"media\" e mais de 24 horas é \"alta\""
+    testes: [test_prioridade_media_e_alta]
+  - texto: "Cliente VIP com mais de 2 horas é sempre \"urgente\""
+    testes: [test_prioridade_vip_urgente]
+  - texto: "Os limites exatos (2h, 8h e 24h) seguem a tabela do ticket"
+    testes: [test_prioridade_limites_exatos]
+checagens: []
+mensagemAbertura: "Oi, aqui é a Júlia, coordenadora do suporte! Hoje a gente decide a prioridade de cada ticket no olho, e cada atendente faz de um jeito. Preciso de uma regra única, em código."
+mensagemConclusao: "Agora todo mundo classifica do mesmo jeito. A fila ficou muito mais justa, obrigada!"

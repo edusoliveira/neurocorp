@@ -1,0 +1,38 @@
+id: T020
+titulo: Enriquecer clientes em paralelo com asyncio
+tipo: feature        # feature | bug | melhoria | desafio
+prioridade: alta     # baixa | media | alta | urgente
+solicitante: rafael  # id em content/personas.yaml
+xp: 190
+estimativa: 1 h 30 min
+conceitos: [async/await, corrotinas, asyncio.gather, asyncio.Semaphore, concorrência limitada, Callable, Awaitable]
+arquivos:            # arquivos que você edita, relativos à pasta suporte-inteligente/
+  - suporte/enriquecimento.py
+criterios:
+  - texto: "`enriquecer_todos` devolve `{nome: resultado da consulta}` para cada nome"
+    testes: [test_enriquecer_resultados]
+  - texto: "As consultas rodam ao mesmo tempo: 10 consultas de 0,2 s com limite 10 terminam bem antes de 2 s"
+    testes: [test_enriquecer_e_concorrente]
+  - texto: "Nunca há mais de `limite` consultas em andamento ao mesmo tempo"
+    testes: [test_enriquecer_respeita_limite]
+  - texto: "Nomes repetidos são consultados uma vez só"
+    testes: [test_enriquecer_nomes_repetidos]
+  - texto: "`limite` menor que 1 gera `ValueError`; lista vazia devolve `{}`"
+    testes: [test_enriquecer_limite_invalido_e_lista_vazia]
+checagens:
+  - tipo: exigir_async
+    arquivo: suporte/enriquecimento.py
+    mensagem: "enriquecer_todos precisa ser uma função assíncrona (async def)."
+  - tipo: exigir_chamada
+    nome: Semaphore
+    arquivo: suporte/enriquecimento.py
+    mensagem: "Use asyncio.Semaphore para limitar quantas consultas rodam ao mesmo tempo."
+  - tipo: exigir_chamada
+    nome: gather
+    arquivo: suporte/enriquecimento.py
+    mensagem: "Use asyncio.gather para disparar as consultas ao mesmo tempo."
+  - tipo: exigir_anotacoes
+    arquivo: suporte/enriquecimento.py
+    mensagem: "Toda função de enriquecimento.py (inclusive as internas) precisa de tipo em cada parâmetro e no retorno."
+mensagemAbertura: "Rafael de novo! O time comercial quer cada ticket com os dados do cliente (plano, gerente da conta...), que vêm de uma API lenta: uns 200 ms por cliente. Um por vez, o relatório leva minutos. Dá pra consultar vários ao mesmo tempo, sem derrubar a API deles?"
+mensagemConclusao: "De minutos para segundos! ⚡ E guarda bem esse padrão gather + Semaphore: é EXATAMENTE assim que vamos chamar a API dos modelos de IA em lote nas próximas trilhas."

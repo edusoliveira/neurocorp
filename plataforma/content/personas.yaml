@@ -1,0 +1,21 @@
+# Pessoas da NeuroCorp que pedem tarefas, revisam código e mandam mensagens.
+marina:
+  nome: Marina Costa
+  cargo: Tech Lead de IA
+  cor: "#8b5cf6"
+rafael:
+  nome: Rafael Lima
+  cargo: Product Manager
+  cor: "#0ea5e9"
+julia:
+  nome: Júlia Andrade
+  cargo: Coordenadora de Suporte
+  cor: "#f59e0b"
+carlos:
+  nome: Carlos Mendes
+  cargo: CTO
+  cor: "#10b981"
+bot:
+  nome: Tech Lead Bot
+  cargo: Revisor automático
+  cor: "#6366f1"

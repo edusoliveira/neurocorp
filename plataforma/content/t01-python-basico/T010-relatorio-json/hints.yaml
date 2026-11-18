@@ -1,0 +1,38 @@
+# Para cada teste: título curto + dicas progressivas (da mais leve para a mais direta).
+# alvo (opcional): {arquivo, funcao} — onde o comentário aparece no código
+# quando o erro não aponta uma linha do seu arquivo.
+test_relatorio_totais:
+  titulo: "`total` ou `abertos` estão errados"
+  dicas:
+    - "A função precisa devolver um dicionário: `return {\"total\": ..., \"abertos\": ..., ...}`."
+    - "`total` é `len(tickets)`. Para `abertos`, você já tem `contar_abertos` no `suporte/filtros.py`."
+    - "No topo do arquivo: `from suporte.filtros import contar_abertos`; no dicionário: `\"abertos\": contar_abertos(tickets)`."
+  alvo: {arquivo: suporte/relatorio.py, funcao: gerar_relatorio}
+test_relatorio_contagens:
+  titulo: "`por_categoria` ou `por_prioridade` estão errados"
+  dicas:
+    - "Para categoria, importe `contar_por_categoria` de `suporte.contagens`."
+    - "Para prioridade não existe função pronta: faça igual ao T006, trocando a chave `\"categoria\"` por `\"prioridade\"`."
+    - "Crie uma função auxiliar `contar_por_prioridade(tickets)` com `contagem[p] = contagem.get(p, 0) + 1` e use no relatório."
+  alvo: {arquivo: suporte/relatorio.py, funcao: gerar_relatorio}
+test_relatorio_taxa_e_lista_vazia:
+  titulo: A taxa de resolução está errada (ou a lista vazia quebrou)
+  dicas:
+    - "A taxa é sobre os tickets FECHADOS: fechados = total − abertos."
+    - "Reaproveite `calcular_taxa_resolucao(recebidos, resolvidos)` do T002 — ela já devolve 0.0 quando não há tickets."
+    - "Escreva: `\"taxa_resolucao\": calcular_taxa_resolucao(total, total - abertos)`."
+  alvo: {arquivo: suporte/relatorio.py, funcao: gerar_relatorio}
+test_salvar_relatorio_json:
+  titulo: O arquivo JSON não foi criado ou está com o conteúdo errado
+  dicas:
+    - "Abra o arquivo para ESCRITA: o segundo argumento do `open` é `\"w\"`."
+    - "`json.dump(dados, arquivo)` grava o dicionário dentro do arquivo aberto."
+    - "Escreva: `with open(caminho, \"w\", encoding=\"utf-8\") as arquivo:` e, dentro, `json.dump(relatorio, arquivo, ensure_ascii=False, indent=2)`."
+  alvo: {arquivo: suporte/relatorio.py, funcao: salvar_relatorio}
+test_salvar_relatorio_formato:
+  titulo: O JSON está sem acentos legíveis ou sem indentação
+  dicas:
+    - "Por padrão o `json` troca `ã` por `\\u00e3`. O parâmetro `ensure_ascii=False` desliga isso."
+    - "`indent=2` faz cada chave ficar numa linha, com 2 espaços de recuo."
+    - "Confira os três detalhes: `encoding=\"utf-8\"` no `open`, e `ensure_ascii=False, indent=2` no `json.dump`."
+  alvo: {arquivo: suporte/relatorio.py, funcao: salvar_relatorio}

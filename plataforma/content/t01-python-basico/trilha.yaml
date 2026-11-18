@@ -1,0 +1,23 @@
+id: t01-python-basico
+ordem: 1
+titulo: Python Básico
+descricao: Seus primeiros scripts na NeuroCorp — variáveis, funções, listas, dicionários, arquivos e um relatório diário de verdade.
+cargoInicial: Estagiário(a) de IA
+cargoAoConcluir: Desenvolvedor(a) Júnior
+cor: "#22c55e"
+fase: Fase 0 · Base de engenharia Python
+periodo: nov/2026
+topicos: [variáveis e tipos, funções, condicionais, strings, listas e laços, dicionários, arquivos CSV, datas, tratamento de erros, JSON e módulos, CLI com argparse]
+projeto: "Desafio — relatório diário dos tickets na linha de comando"
+tickets:
+  - T001-boas-vindas
+  - T002-metricas-do-dia
+  - T003-classificar-prioridade
+  - T004-limpar-assuntos
+  - T005-filtrar-tickets
+  - T006-contar-categorias
+  - T007-ler-csv
+  - T008-sla-e-datas
+  - T009-bug-dados-sujos
+  - T010-relatorio-json
+  - T011-desafio-cli-relatorio

@@ -1,0 +1,47 @@
+# Para cada teste: título curto + dicas progressivas (da mais leve para a mais direta).
+# alvo (opcional): {arquivo, funcao} — onde o comentário aparece no código
+# quando o erro não aponta uma linha do seu arquivo.
+test_ticket_e_dataclass_com_campos:
+  titulo: "`Ticket` não é uma dataclass com os campos pedidos"
+  dicas:
+    - "Coloque `@dataclass(frozen=True)` na linha logo acima de `class Ticket:` (com `from dataclasses import dataclass` no topo)."
+    - "Na dataclass, cada campo é uma linha `nome: tipo` dentro da classe, sem `self` e sem `__init__`."
+    - "A ordem importa: `id`, `cliente`, `categoria`, `prioridade`, `status`, `canal`, `aberto_em`, `fechado_em`, `assunto`. Datas são `datetime`; `fechado_em` é `datetime | None`."
+test_ticket_imutavel:
+  titulo: O Ticket deveria ser imutável
+  dicas:
+    - "A dataclass aceita opções entre parênteses no decorador."
+    - "Use `@dataclass(frozen=True)` — assim `ticket.status = \"fechado\"` gera `FrozenInstanceError`."
+test_de_linha_converte_tipos:
+  titulo: "`de_linha` não converteu os campos"
+  dicas:
+    - "Tudo que vem do CSV é texto. O `id` precisa de `int(...)` e as datas de `datetime.fromisoformat(...)`."
+    - "Como é um `@classmethod`, o primeiro parâmetro é a classe: crie o ticket com `cls(...)`."
+    - "Estrutura: `return cls(id=int(linha[\"id\"]), cliente=linha[\"cliente\"], ..., aberto_em=datetime.fromisoformat(linha[\"aberto_em\"]), ...)`."
+  alvo: {arquivo: suporte/modelos.py, funcao: de_linha}
+test_de_linha_fechado_em_vazio_vira_none:
+  titulo: "`fechado_em` vazio deveria virar None"
+  dicas:
+    - "`datetime.fromisoformat(\"\")` gera erro: trate o texto vazio antes."
+    - "Um `if` de uma linha resolve: `valor if condicao else outro`."
+    - "Escreva: `fechado_em=datetime.fromisoformat(linha[\"fechado_em\"]) if linha[\"fechado_em\"] else None`."
+  alvo: {arquivo: suporte/modelos.py, funcao: de_linha}
+test_esta_aberto_e_property:
+  titulo: "`esta_aberto` deveria ser uma property"
+  dicas:
+    - "Uma property é um método com `@property` em cima; ela é lida sem parênteses: `ticket.esta_aberto`."
+    - "Escreva: `@property` / `def esta_aberto(self) -> bool:` / `return self.status != \"fechado\"`."
+  alvo: {arquivo: suporte/modelos.py, funcao: esta_aberto}
+test_horas_aberto:
+  titulo: "`horas_aberto` devolveu um valor errado"
+  dicas:
+    - "Subtrair dois `datetime` dá um `timedelta`. `timedelta.total_seconds()` dá os segundos; divida por 3600 para ter horas."
+    - "Se `self.fechado_em` não é `None`, o fim é `self.fechado_em`; senão o fim é `agora`."
+    - "Escreva: `fim = self.fechado_em if self.fechado_em is not None else agora` e `return (fim - self.aberto_em).total_seconds() / 3600`."
+  alvo: {arquivo: suporte/modelos.py, funcao: horas_aberto}
+test_de_linha_com_csv_real:
+  titulo: Alguma linha de data/tickets.csv não virou Ticket
+  dicas:
+    - "Teste no seu computador com o script da seção \"Como testar\" — a mensagem de erro mostra qual campo quebrou."
+    - "No arquivo real, os tickets ainda abertos têm `fechado_em` vazio. Confira se o vazio vira `None`."
+  alvo: {arquivo: suporte/modelos.py, funcao: de_linha}

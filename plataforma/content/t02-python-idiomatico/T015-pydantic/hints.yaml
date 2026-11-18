@@ -1,0 +1,48 @@
+# Para cada teste: título curto + dicas progressivas (da mais leve para a mais direta).
+# alvo (opcional): {arquivo, funcao} — onde o comentário aparece no código
+# quando o erro não aponta uma linha do seu arquivo.
+test_entrada_converte_tipos:
+  titulo: "`TicketEntrada` não converteu a linha para os tipos certos"
+  dicas:
+    - "No Pydantic, cada campo é uma linha `nome: tipo` dentro da classe — igual à dataclass. O Pydantic converte sozinho `\"7\"` em `7`, o texto ISO em `datetime` e `\"alta\"` em `Prioridade.ALTA`."
+    - "Use os enums do T014 como tipos: `prioridade: Prioridade` e `status: Status` (importe de `suporte.modelos`)."
+    - "Os 9 campos, na ordem: `id: int`, `cliente: str`, `categoria: str`, `prioridade: Prioridade`, `status: Status`, `canal: str`, `aberto_em: datetime`, `fechado_em: datetime | None = None`, `assunto: str`."
+test_entrada_limpa_campos:
+  titulo: Categoria, prioridade, assunto ou fechado_em não foram limpos
+  dicas:
+    - "Para mexer no texto ANTES da conversão (ex.: `\" ALTA \"` antes de virar enum), use `@field_validator(\"prioridade\", mode=\"before\")`."
+    - "Um validador pode cuidar de vários campos: `@field_validator(\"categoria\", \"prioridade\", mode=\"before\")`, com `@classmethod` logo abaixo, devolvendo `valor.strip().lower()`."
+    - "Para `fechado_em`, outro validador `mode=\"before\"` que devolve `None` quando o valor é `\"\"`. Para o assunto, um validador normal que devolve `normalizar_assunto(valor)`."
+test_entrada_rejeita_id_invalido:
+  titulo: Um id inválido passou pela validação
+  dicas:
+    - "`\"abc\"` e `\"\"` o Pydantic já recusa sozinho por causa do `id: int`. O problema são `\"0\"` e `\"-3\"`, que são inteiros válidos."
+    - "Num `@field_validator(\"id\")` (sem `mode`, roda depois da conversão), o valor já é `int`: levante `ValueError` se ele for menor ou igual a zero."
+    - "Escreva: `@field_validator(\"id\")` / `@classmethod` / `def id_positivo(cls, valor: int) -> int:` / `if valor <= 0: raise ValueError(\"id deve ser positivo\")` / `return valor`."
+test_entrada_rejeita_categoria_e_prioridade:
+  titulo: Categoria vazia ou prioridade desconhecida passaram pela validação
+  dicas:
+    - "Com `prioridade: Prioridade`, um valor que não existe no enum já é recusado. Confira o tipo do campo."
+    - "Para a categoria, crie um validador (depois da limpeza) que levante `ValueError` se o texto ficar vazio."
+    - "A ordem importa: o validador `mode=\"before\"` faz o strip, e um `@field_validator(\"categoria\")` normal confere `if not valor: raise ValueError(...)`."
+test_validar_linhas_separa_validos_e_erros:
+  titulo: "`validar_linhas` não separou válidos e erros do jeito pedido"
+  dicas:
+    - "Percorra com `for numero, linha in enumerate(linhas, start=1):` e valide com `TicketEntrada.model_validate(linha)` dentro de um `try`."
+    - "No `except ValidationError as erro:`, os campos com problema são `item[\"loc\"][0]` para cada `item` de `erro.errors()`."
+    - "Monte a mensagem com `f\"linha {numero}: {', '.join(campos)}\"` e devolva `return validos, erros`."
+  alvo: {arquivo: suporte/schemas.py, funcao: validar_linhas}
+test_validar_linhas_dados_sujos:
+  titulo: Com data/tickets_sujos.csv o resultado não bateu com o T009
+  dicas:
+    - "Rode o script da seção \"Como testar\": deveriam aparecer 36 válidos e 4 erros."
+    - "Se vieram mais erros, algum campo que o T009 aceitava está sendo recusado — leia as mensagens para ver qual."
+    - "Lembre: o número da linha começa em 1 e o cabeçalho não conta (use `enumerate(linhas, start=1)`)."
+  alvo: {arquivo: suporte/schemas.py, funcao: validar_linhas}
+test_para_ticket:
+  titulo: "`para_ticket()` não devolveu o Ticket certo"
+  dicas:
+    - "`self.model_dump()` devolve um dicionário `{campo: valor}` com os valores já convertidos."
+    - "Os campos do `TicketEntrada` têm os mesmos nomes dos campos do `Ticket`, então dá para desempacotar: `Ticket(**dicionario)`."
+    - "Escreva: `def para_ticket(self) -> Ticket:` / `return Ticket(**self.model_dump())`."
+  alvo: {arquivo: suporte/schemas.py, funcao: para_ticket}

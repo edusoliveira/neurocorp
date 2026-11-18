@@ -1,0 +1,31 @@
+# Para cada teste: título curto + dicas progressivas (da mais leve para a mais direta).
+# alvo (opcional): {arquivo, funcao} — onde o comentário aparece no código
+# quando o erro não aponta uma linha do seu arquivo.
+test_normalizar_remove_espacos:
+  titulo: Ainda sobram espaços no assunto
+  dicas:
+    - "`.strip()` tira espaços das pontas, mas não mexe nos espaços repetidos do meio."
+    - "`texto.split()` devolve uma lista só com as palavras, sem espaço nenhum. Depois é só juntar."
+    - "Escreva: `palavras = texto.split()` e depois `\" \".join(palavras)`."
+  alvo: {arquivo: suporte/texto.py, funcao: normalizar_assunto}
+test_normalizar_maiusculas:
+  titulo: As maiúsculas e minúsculas do assunto não estão certas
+  dicas:
+    - "Strings têm um método que deixa a primeira letra maiúscula e o resto minúsculo."
+    - "Esse método é o `.capitalize()`. Experimente `\"APP NÃO ABRE\".capitalize()` no terminal."
+    - "Escreva: `return \" \".join(texto.split()).capitalize()`"
+  alvo: {arquivo: suporte/texto.py, funcao: normalizar_assunto}
+test_parece_urgente_detecta:
+  titulo: "`parece_urgente` não encontrou uma palavra-chave"
+  dicas:
+    - "`\"parado\" in \"Sistema PARADO\"` é False, porque as maiúsculas são diferentes. Converta o texto antes."
+    - "Faça `texto_minusculo = texto.lower()` e use um `for` para testar cada palavra de `PALAVRAS_URGENTES`."
+    - "Dentro do `for palavra in PALAVRAS_URGENTES:`, escreva `if palavra in texto_minusculo: return True`."
+  alvo: {arquivo: suporte/texto.py, funcao: parece_urgente}
+test_parece_urgente_falso:
+  titulo: "`parece_urgente` deveria devolver False"
+  dicas:
+    - "Se nenhuma palavra foi encontrada, a função precisa devolver `False` — e não `None`."
+    - "Uma função sem `return` devolve `None` automaticamente."
+    - "Depois do `for` (fora dele, sem indentação extra), escreva `return False`."
+  alvo: {arquivo: suporte/texto.py, funcao: parece_urgente}

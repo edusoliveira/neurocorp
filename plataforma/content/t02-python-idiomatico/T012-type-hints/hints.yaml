@@ -1,0 +1,30 @@
+# Para cada teste: título curto + dicas progressivas (da mais leve para a mais direta).
+# alvo (opcional): {arquivo, funcao} — onde o comentário aparece no código
+# quando o erro não aponta uma linha do seu arquivo.
+test_tipos_metricas:
+  titulo: As anotações de `metricas.py` estão faltando ou erradas
+  dicas:
+    - "A anotação do parâmetro vem depois de dois-pontos (`recebidos: int`) e a do retorno depois de uma seta, antes do `:` final (`-> int:`)."
+    - "`calcular_pendentes` devolve uma subtração de inteiros (`int`); `calcular_taxa_resolucao` devolve um número com casas decimais (`float`)."
+    - "Escreva: `def calcular_taxa_resolucao(recebidos: int, resolvidos: int) -> float:` — e não mexa no corpo da função."
+  alvo: {arquivo: suporte/metricas.py, funcao: calcular_taxa_resolucao}
+test_tipos_filtros:
+  titulo: As anotações de `filtros.py` estão faltando ou erradas
+  dicas:
+    - "Cada ticket é um dicionário com chaves texto e valores de tipos variados: `dict[str, Any]`. Uma lista deles é `list[dict[str, Any]]`."
+    - "`Any` não é nativo: coloque `from typing import Any` no topo do arquivo."
+    - "Escreva: `def filtrar_por_prioridade(tickets: list[dict[str, Any]], prioridade: str) -> list[dict[str, Any]]:` e `def contar_abertos(tickets: list[dict[str, Any]]) -> int:`."
+  alvo: {arquivo: suporte/filtros.py, funcao: filtrar_por_prioridade}
+test_tipos_contar_por_categoria:
+  titulo: "`contar_por_categoria` deveria estar anotada com `-> dict[str, int]`"
+  dicas:
+    - "O resultado é um dicionário em que a chave é a categoria (texto) e o valor é a quantidade (inteiro)."
+    - "Escreva: `def contar_por_categoria(tickets: list[dict[str, Any]]) -> dict[str, int]:` (com `from typing import Any` no topo)."
+  alvo: {arquivo: suporte/contagens.py, funcao: contar_por_categoria}
+test_tipo_opcional_categoria_mais_frequente:
+  titulo: "`categoria_mais_frequente` pode devolver `None` — o tipo precisa dizer isso"
+  dicas:
+    - "Com a lista vazia a função devolve `None`. Um retorno `-> str` estaria mentindo."
+    - "A barra `|` junta dois tipos: `str | None` quer dizer \"um texto ou None\"."
+    - "Escreva: `def categoria_mais_frequente(tickets: list[dict[str, Any]]) -> str | None:`."
+  alvo: {arquivo: suporte/contagens.py, funcao: categoria_mais_frequente}

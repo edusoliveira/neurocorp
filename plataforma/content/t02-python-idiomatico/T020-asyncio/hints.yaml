@@ -1,0 +1,36 @@
+# Para cada teste: título curto + dicas progressivas (da mais leve para a mais direta).
+# alvo (opcional): {arquivo, funcao} — onde o comentário aparece no código
+# quando o erro não aponta uma linha do seu arquivo.
+test_enriquecer_resultados:
+  titulo: O dicionário de resultados veio errado
+  dicas:
+    - "`consultar` é assíncrona: o resultado só existe depois do `await consultar(nome)`."
+    - "`asyncio.gather` devolve os resultados na mesma ordem das corrotinas que você passou. Junte com os nomes usando `zip`."
+    - "Escreva: `resultados = await asyncio.gather(*(consultar(nome) for nome in distintos))` e `return dict(zip(distintos, resultados))`."
+  alvo: {arquivo: suporte/enriquecimento.py, funcao: enriquecer_todos}
+test_enriquecer_e_concorrente:
+  titulo: As consultas rodaram uma de cada vez
+  dicas:
+    - "Um `for` com `await` dentro espera cada consulta terminar antes de começar a próxima."
+    - "Crie TODAS as corrotinas primeiro e entregue para o `asyncio.gather`, que espera todas ao mesmo tempo."
+    - "O `*` desempacota: `await asyncio.gather(*corrotinas)`, onde `corrotinas` é uma lista ou um gerador de chamadas."
+  alvo: {arquivo: suporte/enriquecimento.py, funcao: enriquecer_todos}
+test_enriquecer_respeita_limite:
+  titulo: Mais consultas que o `limite` rodaram ao mesmo tempo
+  dicas:
+    - "O `gather` sozinho dispara tudo junto. Para limitar, cada consulta precisa pegar uma \"vaga\" antes de rodar."
+    - "`semaforo = asyncio.Semaphore(limite)` cria as vagas; `async with semaforo:` ocupa uma e libera no fim do bloco."
+    - "Crie uma corrotina interna: `async def consultar_com_vaga(nome: str) -> dict[str, Any]:` / `async with semaforo:` / `return await consultar(nome)` — e passe ela para o `gather`."
+  alvo: {arquivo: suporte/enriquecimento.py, funcao: enriquecer_todos}
+test_enriquecer_nomes_repetidos:
+  titulo: Um cliente repetido foi consultado mais de uma vez
+  dicas:
+    - "Tire os repetidos ANTES de disparar as consultas."
+    - "`list(dict.fromkeys(nomes))` remove repetidos e mantém a ordem da primeira aparição."
+  alvo: {arquivo: suporte/enriquecimento.py, funcao: enriquecer_todos}
+test_enriquecer_limite_invalido_e_lista_vazia:
+  titulo: "`limite` inválido ou lista vazia não foram tratados"
+  dicas:
+    - "Confira o `limite` logo no começo: `if limite < 1: raise ValueError(...)`."
+    - "Com a lista vazia, `asyncio.gather()` sem argumentos devolve `[]` — e o `dict(zip(...))` vira `{}`. Confira se nada quebra nesse caminho."
+  alvo: {arquivo: suporte/enriquecimento.py, funcao: enriquecer_todos}

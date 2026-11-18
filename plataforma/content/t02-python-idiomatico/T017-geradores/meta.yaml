@@ -1,0 +1,37 @@
+id: T017
+titulo: Ler arquivos gigantes em lotes com geradores
+tipo: melhoria       # feature | bug | melhoria | desafio
+prioridade: media    # baixa | media | alta | urgente
+solicitante: rafael  # id em content/personas.yaml
+xp: 160
+estimativa: 1 h
+conceitos: [geradores, yield, avaliação preguiçosa, Iterator, Iterable, itertools.batched, memória]
+arquivos:            # arquivos que você edita, relativos à pasta suporte-inteligente/
+  - suporte/streaming.py
+criterios:
+  - texto: "`ler_em_lotes` é uma função geradora e só abre o arquivo quando o primeiro lote é pedido"
+    testes: [test_ler_em_lotes_e_gerador]
+  - texto: "Os lotes têm até `tamanho` linhas, na ordem do arquivo; o último pode ser menor"
+    testes: [test_ler_em_lotes_tamanhos]
+  - texto: "Nunca devolve lote vazio (arquivo só com cabeçalho → nenhum lote)"
+    testes: [test_ler_em_lotes_sem_lote_vazio]
+  - texto: "`tamanho` menor que 1 gera `ValueError`"
+    testes: [test_ler_em_lotes_tamanho_invalido]
+  - texto: "`contar_por_status` aceita qualquer iterável e o percorre uma vez só"
+    testes: [test_contar_por_status_percorre_uma_vez]
+  - texto: "As duas funções juntas contam os status de data/tickets.csv corretamente"
+    testes: [test_contar_com_lotes_dados_reais]
+checagens:
+  - tipo: exigir_chamada
+    nome: DictReader
+    arquivo: suporte/streaming.py
+    mensagem: "Leia o CSV com csv.DictReader, que já lê uma linha por vez."
+  - tipo: proibir_chamada
+    nome: readlines
+    arquivo: suporte/streaming.py
+    mensagem: "readlines() carrega o arquivo inteiro na memória — justamente o que este ticket quer evitar."
+  - tipo: exigir_anotacoes
+    arquivo: suporte/streaming.py
+    mensagem: "Toda função de streaming.py precisa de tipo em cada parâmetro e no retorno."
+mensagemAbertura: "Rafael aqui! Fechamos contrato com um cliente grande: o export de tickets dele tem 2 milhões de linhas. Carregar tudo numa lista derruba o servidor. Dá pra processar aos pedaços?"
+mensagemConclusao: "Testei com o arquivo de 2 milhões de linhas e a memória nem se mexeu 🚀 Esse padrão de lotes vai aparecer muito quando a gente começar a mandar tickets para os modelos de IA."
