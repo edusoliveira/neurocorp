@@ -11,7 +11,11 @@ export const WORKSPACE = process.env.NEUROCORP_WORKSPACE
   ? path.resolve(process.env.NEUROCORP_WORKSPACE)
   : path.join(RAIZ_NEUROCORP, "suporte-inteligente");
 export const CONTEUDO = path.join(RAIZ_PLATAFORMA, "content");
-export const DADOS = path.join(RAIZ_PLATAFORMA, ".data");
+/**
+ * Progresso (XP, tickets, histórico de revisões). Fica DENTRO do repositório do aluno,
+ * para ir junto no `git push` e dar para continuar de outro computador.
+ */
+export const DADOS = path.join(WORKSPACE, ".neurocorp");
 export const GRADER_PY = path.join(RAIZ_PLATAFORMA, "grader-py");
 
 export function pythonBin(): string {

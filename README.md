@@ -105,4 +105,26 @@ npm run checar   # a solução tem que passar em tudo e os arquivos iniciais tê
 | `npm run checar` | valida o conteúdo de todas as trilhas |
 | `npm test` | testes do Tech Lead Bot (Vitest) |
 
-O progresso fica em `plataforma/.data/`. Para recomeçar, use **Carreira → Reiniciar progresso**: isso não apaga o seu código.
+O progresso (XP, tickets e histórico de revisões) fica em `suporte-inteligente/.neurocorp/`, dentro do **seu** repositório. Por isso ele vai junto em cada `git push`. Para recomeçar, use **Carreira → Reiniciar progresso**: isso não apaga o seu código.
+
+## Continuar em outro computador
+
+Antes de trocar de máquina, dentro de `suporte-inteligente`:
+
+```bash
+git add -A && git commit -m "progresso" && git push
+```
+
+No outro computador (precisa de Node.js 20+, Python 3.11+ e Git):
+
+```bash
+git clone https://github.com/edusoliveira/neurocorp.git
+cd neurocorp
+git clone https://github.com/edusoliveira/suporte-inteligente.git
+cd plataforma
+npm install
+npm run setup
+npm run dev
+```
+
+Ao voltar para a máquina anterior, rode `git pull` nas duas pastas antes de continuar.

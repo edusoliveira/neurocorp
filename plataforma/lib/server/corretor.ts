@@ -9,7 +9,7 @@ import { destacar } from "./destaque";
 import { revisar, type AnaliseEstatica, type ProblemaLint, type RelatorioPytest } from "./revisor";
 import type { Submissao } from "../tipos";
 
-const IGNORAR = new Set([".git", ".venv", "venv", "__pycache__", ".pytest_cache", ".ruff_cache", "node_modules", ".mypy_cache"]);
+const IGNORAR = new Set([".git", ".neurocorp",".venv", "venv", "__pycache__", ".pytest_cache", ".ruff_cache", "node_modules", ".mypy_cache"]);
 const TIMEOUT_TESTES_MS = 30_000;
 
 interface Execucao {
